@@ -1,3 +1,4 @@
 *.o
 .idea
 main
+cmake-build-debug
