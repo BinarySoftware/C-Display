@@ -63,21 +63,19 @@ void createColumn(char c, struct Display d, int col, int beg, int end){
 
 void createLineText(char* c, struct Display d, int ln, int beg, int len){
     for(int i = 0; i < len-1; i++){
-        if (i+beg < d.size.columns) {
-            pushCharToPoint(c[i], ln, i+beg, d);
-        }
+        pushCharToPoint(c[i], ln, i+beg, d);
     }
 }
 void createColumnText(char* c, struct Display d, int col, int beg, int len){
     for(int i = 0; i < len-1; i++){
-        if (i+beg < d.size.lines) {
-            pushCharToPoint(c[i], i+beg, col, d);
-        }
+        pushCharToPoint(c[i], i+beg, col, d);
     }
 }
 
 void pushCharToPoint(char c, int ln, int col, struct Display d){
-    d.array[ln][col] = c;
+    if(ln < d.size.lines && col < d.size.columns){
+        d.array[ln][col] = c;
+    }
 }
 
 ///=============================================================================
