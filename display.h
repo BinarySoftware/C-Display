@@ -30,6 +30,8 @@ void createFrameDeprecated(char c, struct Display d);
 
 void createFrame(char c, struct Display d);
 
+void pushCharToPoint(char c, int ln, int col, struct Display d);
+
 void createLine(char c, struct Display d, int ln, int beg, int end);
 
 void createColumn(char c, struct Display d, int col, int beg, int end);

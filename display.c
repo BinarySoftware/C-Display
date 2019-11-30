@@ -14,7 +14,7 @@ void makeEmptyDisplay(struct Display d){
     while(line < d.size.lines){
         int column = 0;
         while (column < d.size.columns){
-            d.array[line][column] = ' ';
+            pushCharToPoint(' ', line, column, d);
             column++;
         }
         line++;
@@ -30,11 +30,11 @@ void createFrameDeprecated(char c, struct Display d){
         int column = 0;
         while (column < d.size.columns){
             if (column == 0 || column == d.size.columns - 1){
-                d.array[line][column] = c;
+                pushCharToPoint(c, line, column, d);
             } else if (line == 0 || line == d.size.lines - 1){
-                d.array[line][column] = c;
+                pushCharToPoint(c, line, column, d);
             } else {
-                d.array[line][column] = ' ';
+                pushCharToPoint(' ', line, column, d);
             }
             column++;
         }
@@ -51,29 +51,33 @@ void createFrame(char c, struct Display d){
 
 void createLine(char c, struct Display d, int ln, int beg, int end){
     for(int i = beg; i < end; i++){
-        d.array[ln][i] = c;
+        pushCharToPoint(c, ln, i, d);
     }
 }
 
 void createColumn(char c, struct Display d, int col, int beg, int end){
     for(int i = beg; i < end; i++){
-        d.array[i][col] = c;
+        pushCharToPoint(c, i, col, d);
     }
 }
 
 void createLineText(char* c, struct Display d, int ln, int beg, int len){
     for(int i = 0; i < len-1; i++){
         if (i+beg < d.size.columns) {
-            d.array[ln][i+beg] = c[i];
+            pushCharToPoint(c[i], ln, i+beg, d);
         }
     }
 }
 void createColumnText(char* c, struct Display d, int col, int beg, int len){
     for(int i = 0; i < len-1; i++){
         if (i+beg < d.size.lines) {
-            d.array[i+beg][col] = c[i];
+            pushCharToPoint(c[i], i+beg, col, d);
         }
     }
+}
+
+void pushCharToPoint(char c, int ln, int col, struct Display d){
+    d.array[ln][col] = c;
 }
 
 ///=============================================================================

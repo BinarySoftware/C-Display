@@ -14,6 +14,7 @@ int main (void){
     createLine('*', disp, 17, 10, 25);
     createColumnText("Co jest ?", disp, 30, 5, 10);
     createLineText("Wszystkiego najlepszego bober!", disp, 52, 15, 50);
+    pushCharToPoint('F', 33, 54, disp);
     buildDisplay(disp);
     destroyDisplay(disp);
     return 0;
