@@ -1,1 +1,1 @@
-gcc -c -g display.c && gcc -c -g main.c && gcc -o main main.o display.o && ./main
+gcc -c -g display.c && gcc -c -g animate.c && gcc -c -g main.c && gcc -o main main.o display.o animate.o && ./main

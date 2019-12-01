@@ -25,7 +25,7 @@ void makeEmptyDisplay(struct Display d){
 ///==== Pushes char to specified point in display's array ======================
 ///=============================================================================
 void pushCharToPoint(char c, int ln, int col, struct Display d){
-    if(ln < d.size.lines && col < d.size.columns){
+    if(ln < d.size.lines && col < d.size.columns && ln >= 0 && col >= 0){
         d.array[ln][col] = c;
     }
 }
@@ -63,10 +63,18 @@ void createColumnText(char* c, struct Display d, int col, int beg, int len){
 ///==== Creates 2D boxes =======================================================
 ///=============================================================================
 void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd){
-    createColumn(c, d, xBeg,yBeg,yEnd);
-    createColumn(c, d, xEnd,yBeg,yEnd);
-    createLine(c, d, yBeg,xBeg,xEnd+1);
-    createLine(c, d, yEnd,xBeg,xEnd+1);
+    if(xBeg == xEnd && yBeg == yEnd){
+        pushCharToPoint(c,yBeg,xBeg,d);
+    }else if(xBeg == xEnd){
+        createColumn(c, d, yBeg,xBeg,xEnd+1);
+    }else if(yBeg == yEnd){
+        createLine(c, d, xBeg,yBeg,yEnd);
+    } else {
+        createColumn(c, d, xBeg,yBeg,yEnd);
+        createColumn(c, d, xEnd,yBeg,yEnd);
+        createLine(c, d, yBeg,xBeg,xEnd+1);
+        createLine(c, d, yEnd,xBeg,xEnd+1);
+    }
 }
 
 ///=============================================================================
