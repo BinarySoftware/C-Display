@@ -26,9 +26,11 @@ void destroyDisplay(struct Display d);
 
 void makeEmptyDisplay(struct Display d);
 
-void createFrameDeprecated(char c, struct Display d);
+__deprecated void createFrameDeprecated(char c, struct Display d);
 
 void createFrame(char c, struct Display d);
+
+void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd);
 
 void pushCharToPoint(char c, int ln, int col, struct Display d);
 

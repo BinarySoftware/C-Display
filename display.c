@@ -22,6 +22,54 @@ void makeEmptyDisplay(struct Display d){
 }
 
 ///=============================================================================
+///==== Pushes char to specified point in display's array ======================
+///=============================================================================
+void pushCharToPoint(char c, int ln, int col, struct Display d){
+    if(ln < d.size.lines && col < d.size.columns){
+        d.array[ln][col] = c;
+    }
+}
+
+///=============================================================================
+///==== Creates lines and columns of specified length ==========================
+///=============================================================================
+void createLine(char c, struct Display d, int ln, int beg, int end){
+    for(int i = beg; i < end; i++){
+        pushCharToPoint(c, ln, i, d);
+    }
+}
+
+void createColumn(char c, struct Display d, int col, int beg, int end){
+    for(int i = beg; i < end; i++){
+        pushCharToPoint(c, i, col, d);
+    }
+}
+
+///=============================================================================
+///==== Creates lines and columns from strings =================================
+///=============================================================================
+void createLineText(char* c, struct Display d, int ln, int beg, int len){
+    for(int i = 0; i < len-1; i++){
+        pushCharToPoint(c[i], ln, i+beg, d);
+    }
+}
+void createColumnText(char* c, struct Display d, int col, int beg, int len){
+    for(int i = 0; i < len-1; i++){
+        pushCharToPoint(c[i], i+beg, col, d);
+    }
+}
+
+///=============================================================================
+///==== Creates 2D boxes =======================================================
+///=============================================================================
+void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd){
+    createColumn(c, d, xBeg,yBeg,yEnd);
+    createColumn(c, d, xEnd,yBeg,yEnd);
+    createLine(c, d, yBeg,xBeg,xEnd+1);
+    createLine(c, d, yEnd,xBeg,xEnd+1);
+}
+
+///=============================================================================
 ///==== Creates a frame ========================================================
 ///=============================================================================
 void createFrameDeprecated(char c, struct Display d){
@@ -43,39 +91,7 @@ void createFrameDeprecated(char c, struct Display d){
 }
 
 void createFrame(char c, struct Display d){
-    createColumn(c, d, 0,0,d.size.lines);
-    createColumn(c, d, d.size.columns-1,0,d.size.lines);
-    createLine(c, d, 0,0,d.size.columns);
-    createLine(c, d, d.size.lines-1,0,d.size.columns);
-}
-
-void createLine(char c, struct Display d, int ln, int beg, int end){
-    for(int i = beg; i < end; i++){
-        pushCharToPoint(c, ln, i, d);
-    }
-}
-
-void createColumn(char c, struct Display d, int col, int beg, int end){
-    for(int i = beg; i < end; i++){
-        pushCharToPoint(c, i, col, d);
-    }
-}
-
-void createLineText(char* c, struct Display d, int ln, int beg, int len){
-    for(int i = 0; i < len-1; i++){
-        pushCharToPoint(c[i], ln, i+beg, d);
-    }
-}
-void createColumnText(char* c, struct Display d, int col, int beg, int len){
-    for(int i = 0; i < len-1; i++){
-        pushCharToPoint(c[i], i+beg, col, d);
-    }
-}
-
-void pushCharToPoint(char c, int ln, int col, struct Display d){
-    if(ln < d.size.lines && col < d.size.columns){
-        d.array[ln][col] = c;
-    }
+    createBox(c,d,0,0,d.size.columns-1,d.size.lines-1);
 }
 
 ///=============================================================================
