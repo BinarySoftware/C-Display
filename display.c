@@ -66,9 +66,9 @@ void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd)
     if(xBeg == xEnd && yBeg == yEnd){
         pushCharToPoint(c,yBeg,xBeg,d);
     }else if(xBeg == xEnd){
-        createColumn(c, d, yBeg,xBeg,xEnd+1);
+        createColumn(c, d, xBeg,yBeg,yEnd+1);
     }else if(yBeg == yEnd){
-        createLine(c, d, xBeg,yBeg,yEnd);
+        createLine(c, d, yBeg,xBeg,xEnd);
     } else {
         createColumn(c, d, xBeg,yBeg,yEnd);
         createColumn(c, d, xEnd,yBeg,yEnd);
