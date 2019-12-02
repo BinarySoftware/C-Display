@@ -38,8 +38,8 @@ void createLine(char c, struct Display d, int ln, int beg, int end);
 
 void createColumn(char c, struct Display d, int col, int beg, int end);
 
-void createLineText(char* c, struct Display d, int ln, int beg, int len);
+void createLineText(char* c, struct Display d, int ln, int beg);
 
-void createColumnText(char* c, struct Display d, int col, int beg, int len);
+void createColumnText(char* c, struct Display d, int col, int beg);
 
 void buildDisplay(struct Display d);

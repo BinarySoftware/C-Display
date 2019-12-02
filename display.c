@@ -48,13 +48,19 @@ void createColumn(char c, struct Display d, int col, int beg, int end){
 ///=============================================================================
 ///==== Creates lines and columns from strings =================================
 ///=============================================================================
-void createLineText(char* c, struct Display d, int ln, int beg, int len){
-    for(int i = 0; i < len-1; i++){
+void createLineText(char* c, struct Display d, int ln, int beg){
+    for(int i = 0; i < d.size.columns-1; i++){
+        if(c[i] == '\0'){
+            break;
+        }
         pushCharToPoint(c[i], ln, i+beg, d);
     }
 }
-void createColumnText(char* c, struct Display d, int col, int beg, int len){
-    for(int i = 0; i < len-1; i++){
+void createColumnText(char* c, struct Display d, int col, int beg){
+    for(int i = 0; i < d.size.lines-1; i++){
+        if(c[i] == '\0'){
+            break;
+        }
         pushCharToPoint(c[i], i+beg, col, d);
     }
 }
