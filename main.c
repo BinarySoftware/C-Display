@@ -21,8 +21,13 @@ int main (void){
     createLine('*', disp, 17, 10, 25);
     createColumnText("Co jest ?", disp, 30, 5);
     createLineText("Wszystkiego najlepszego bober!", disp, 52, 15);
-    createBox('&',disp,52,40,72,50);
     pushCharToPoint('F', 33, 54, disp);
+    createDiagonal('%',disp,50,8,74,32);
+    createDiagonal('%',disp,50,18,74,32);
+    createDiagonal('%',disp,50,28,74,32);
+    createDiagonal('%',disp,50,38,74,32);
+    createDiagonal('%',disp,50,48,74,32);
+    createBox('&',disp,52,40,72,50);
     buildDisplay(disp);
     getchar();
 

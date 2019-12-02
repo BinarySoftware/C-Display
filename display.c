@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "display.h"
 
@@ -62,6 +63,22 @@ void createColumnText(char* c, struct Display d, int col, int beg){
             break;
         }
         pushCharToPoint(c[i], i+beg, col, d);
+    }
+}
+
+///=============================================================================
+///==== Calculates and creates diagonals from start and end points =============
+///=============================================================================
+void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd){
+    float xB = (float) xBeg;
+    float yB = (float) yBeg;
+    float xE = (float) xEnd;
+    float yE = (float) yEnd;
+
+    for(int x = xBeg; x <= xEnd; x++){
+        float tga = (yE-yB)/(xE - xB);
+        int y = floor(tga*((float)x) + (yE - tga*xE));
+        pushCharToPoint(c,y,x,d);
     }
 }
 

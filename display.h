@@ -11,7 +11,7 @@ struct Size {
 struct Size getTerminalSize(void);
 
 ///=============================================================================
-///==== Structure for keeping and managing Display =============================
+///==== Structure for keeping data of Display ==================================
 ///=============================================================================
 struct Display {
     struct Size size;
@@ -20,26 +20,39 @@ struct Display {
 
 struct Display initializeDisplay();
 
+///=============================================================================
+///==== Display array management and building ==================================
+///=============================================================================
 char** initializeArray(int m, int n);
 
 void destroyDisplay(struct Display d);
 
 void makeEmptyDisplay(struct Display d);
 
-__deprecated void createFrameDeprecated(char c, struct Display d);
+void buildDisplay(struct Display d);
 
-void createFrame(char c, struct Display d);
 
-void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd);
-
+///=============================================================================
+///==== Methods for creating shapes on display =================================
+///=============================================================================
 void pushCharToPoint(char c, int ln, int col, struct Display d);
 
 void createLine(char c, struct Display d, int ln, int beg, int end);
 
 void createColumn(char c, struct Display d, int col, int beg, int end);
 
+void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd);
+
 void createLineText(char* c, struct Display d, int ln, int beg);
 
 void createColumnText(char* c, struct Display d, int col, int beg);
 
-void buildDisplay(struct Display d);
+void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd);
+
+void createFrame(char c, struct Display d);
+
+
+///=============================================================================
+///==== DEPRECATED Methods =====================================================
+///=============================================================================
+__deprecated void createFrameDeprecated(char c, struct Display d);
