@@ -6,6 +6,8 @@
 ///==== Interactive testing environment ========================================
 ///=============================================================================
 
+void createGUI(struct Display disp, char c);
+
 int main (void){
     /// First is display initialization - measurement of console, initialization
     /// of properly sized 2D char array to hold data for each point on screen
@@ -33,8 +35,39 @@ int main (void){
     makeEmptyDisplay(disp);
     buildDisplay(disp);
     insideOutAnimation(10, disp);
+    getchar();
+
+    // Now it's time for GUI mock-up
+    createGUI(disp,'#');
+    buildDisplay(disp);
+    getchar();
 
     /// Please remember to destroy display before ending app, to free up memory!
     destroyDisplay(disp);
     return 0;
+}
+
+void createGUI(struct Display disp, char c){
+    // Cleans up display from previous structures
+    makeEmptyDisplay(disp);
+
+    // Creates Empty frame
+    createFrame(c, disp);
+
+    // Creates top stucture based on screen width
+    int topY = 6;
+    createBox(c,disp,0,0,disp.size.columns/3,topY);
+    createBox(c,disp,disp.size.columns/3,0,2*disp.size.columns/3,topY);
+    createBox(c,disp,2*disp.size.columns/3,0,disp.size.columns,topY);
+
+    createLineText("Foo Bar Baz", disp, 3, 3);
+    createLineText("Foo Bar Baz", disp, 3, disp.size.columns/3 + 3);
+    createLineText("Foo Bar Baz", disp, 3, 2*disp.size.columns/3 + 3);
+
+    createColumn(c,disp,disp.size.columns/2,topY,disp.size.lines);
+
+    for(int i = 0; i < disp.size.lines-20; i++){
+        createLineText("fsafs", disp, i+10, 3);
+        createLineText("afisfo af", disp, i+10, disp.size.columns/2 +3);
+    }
 }
