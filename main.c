@@ -2,9 +2,11 @@
 // #include "display.h" - only if not including animate lib
 #include "animate.h"
 #include <limits.h>
+#include "life.c"
+#include <unistd.h>
 
 ///=============================================================================
-///==== Interactive testing environment ========================================
+///==== Functions used in this playground ======================================
 ///=============================================================================
 
 void createGUI(struct Display d, char c);
@@ -16,6 +18,14 @@ void buildPlayground(struct Display d);
 void buildAnimations(struct Display d);
 
 void waitForUserInteraction();
+
+void printWorld(golWorld *world, struct Display d);
+
+void runGOL(struct Display d);
+
+///=============================================================================
+///==== Interactive testing environment ========================================
+///=============================================================================
 
 int main (void){
     /// First is display initialization - measurement of console, initialization
@@ -31,6 +41,7 @@ int main (void){
     // Now it's time for GUI mock-up
     createGUI(disp,'#');
 
+    runGOL(disp);
     /// Please remember to destroy display before ending app, to free up memory!
     destroyDisplay(disp);
     return 0;
@@ -92,13 +103,13 @@ void createGUI(struct Display d, char c){
     createLineText("Series of factorials", d, topY + 5, d.size.columns / 2 + 3);
 
     for(int i = 0; i < 22; i++){
-        char t[5];
-        sprintf(text, "%d", i);
+        char t1[5];
+        sprintf(t1, "%d", i);
         char t2[25];
         long j = fact(i);
         sprintf(t2, "%ld", j);
 
-        createLineText(t, d, i + 13, 3);
+        createLineText(t1, d, i + 13, 3);
         createLineText(t2, d, i + 13, d.size.columns / 2 + 3);
     }
 
@@ -117,5 +128,35 @@ long fact(long i){
         return i*fact(n);
     } else {
         return 1;
+    }
+}
+
+void printWorld(golWorld *world, struct Display d){
+    int x, y;
+
+    for(y = 0; y < world->height; y++) {
+        for(x = 0; x < world->width; x++) {
+            char c = (world->array[y][x]).on ? '#' : ' ';
+            pushCharToPoint(c,y,x,d);
+        }
+    }
+
+    buildDisplay(d);
+}
+
+void runGOL(struct Display d) {
+    golWorld gameoflife;
+
+    if(createworld(&gameoflife, d.size.columns, d.size.lines)) {
+        randomizeworld(&gameoflife);
+        int i = 0;
+        do {
+            printWorld(&gameoflife, d);
+            usleep(10*1000);
+            updateworld(&gameoflife);
+            i++;
+        }while(i<1000);
+
+        destroyworld(&gameoflife);
     }
 }
