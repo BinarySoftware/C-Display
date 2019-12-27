@@ -89,12 +89,18 @@ void buildPlayground(struct Display d){
 void buildLunaLogo(struct Display d){
     char c = '#';
     makeEmptyDisplay(d);
+
+    int halfY = d.size.lines/2-1;
+    int halfX = d.size.columns/2-1;
     for(int i = 2; i <= 4; i++){
-        createCircle(c,d,d.size.columns/2-1,d.size.lines/2-1,d.size.lines/2-i);
+        int r = d.size.lines/2-i;
+        createCircle(c,d,halfX,halfY,r);
     }
-    createSemiWheelDn(c,d,d.size.columns/2-1,d.size.lines/2-1,d.size.lines/2-12);
-    createWheel(' ',d,3*d.size.columns/8-1,d.size.lines/2-1,d.size.columns/8+1);
-    createWheel(c,d,5*d.size.columns/8-1,d.size.lines/2-1,d.size.columns/8+1);
+    int semiR = d.size.lines/2-12;
+    createSemiWheelDn(c,d,halfX,halfY,semiR);
+    int smallWheelR = semiR/2;
+    createWheel(' ',d,halfX-smallWheelR,halfY,smallWheelR);
+    createWheel(c,d,halfX+smallWheelR,halfY,smallWheelR);
     buildDisplay((d));
     waitForUserInteraction();
 }
