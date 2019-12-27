@@ -15,6 +15,8 @@ long fact(long i);
 
 void buildPlayground(struct Display d);
 
+void buildLunaLogo(struct Display d);
+
 void buildAnimations(struct Display d);
 
 void waitForUserInteraction();
@@ -38,8 +40,12 @@ int main (void){
 
     // Example no.2 & 3 - animations with C-Display
     buildAnimations(disp);
+
     // Now it's time for GUI mock-up
     createGUI(disp,'#');
+
+    // And Luna Logo
+    buildLunaLogo(disp);
 
     runGOL(disp);
     /// Please remember to destroy display before ending app, to free up memory!
@@ -60,7 +66,7 @@ void buildAnimations(struct Display d){
 }
 
 void buildPlayground(struct Display d){
-    printf("Terminal is %d columns by %d lines.\n", (d).size.columns, (d).size.lines);
+    printf("Terminal is %d columns by %d lines.\n", d.size.columns, d.size.lines);
     createFrame('#', (d));
     createColumn('*', (d), 10, 4, 18);
     createColumn('*', (d), 25, 4, 50);
@@ -74,6 +80,21 @@ void buildPlayground(struct Display d){
     createDiagonal('%', (d), 50, 38, 74, 32);
     createDiagonal('%', (d), 50, 48, 74, 32);
     createBox('&', (d), 52, 40, 72, 50);
+    createCircle('@',d,d.size.columns/2-1,d.size.lines/2-1,d.size.lines/2-2);
+    createWheel('@',d,d.size.columns/2 + 15,d.size.lines/2+15,d.size.lines/5);
+    buildDisplay((d));
+    waitForUserInteraction();
+}
+
+void buildLunaLogo(struct Display d){
+    char c = '#';
+    makeEmptyDisplay(d);
+    for(int i = 2; i <= 4; i++){
+        createCircle(c,d,d.size.columns/2-1,d.size.lines/2-1,d.size.lines/2-i);
+    }
+    createSemiWheelDn(c,d,d.size.columns/2-1,d.size.lines/2-1,d.size.lines/2-12);
+    createWheel(' ',d,3*d.size.columns/8-1,d.size.lines/2-1,d.size.columns/8+1);
+    createWheel(c,d,5*d.size.columns/8-1,d.size.lines/2-1,d.size.columns/8+1);
     buildDisplay((d));
     waitForUserInteraction();
 }

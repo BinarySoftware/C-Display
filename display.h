@@ -49,6 +49,14 @@ void createColumnText(char* c, struct Display d, int col, int beg);
 
 void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd);
 
+void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius);
+
+void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius);
+
+void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius);
+
+void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius);
+
 void createFrame(char c, struct Display d);
 
 

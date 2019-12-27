@@ -101,6 +101,48 @@ void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd)
 }
 
 ///=============================================================================
+///==== Creates 2D circle ======================================================
+///=============================================================================
+int reversePythagorean(int x, int r){
+    double y = sqrt(pow(r,2)-pow(x,2));
+    return ((y)>=0?(int)((y)+0.5):(int)((y)-0.5));
+}
+
+void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius){
+    for(int x = 0; x <= radius; x++){
+        int y = reversePythagorean(x,radius);
+        pushCharToPoint(c, yBeg + y, xBeg + x, d);
+        pushCharToPoint(c, yBeg + y, xBeg - x, d);
+        pushCharToPoint(c, yBeg - y, xBeg + x, d);
+        pushCharToPoint(c, yBeg - y, xBeg - x, d);
+    }
+}
+
+void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius){
+    for(int x = 0; x <= radius; x++){
+        int y = reversePythagorean(x,radius);
+        createColumn(c, d, xBeg + x, yBeg - y, yBeg + y);
+        createColumn(c, d, xBeg - x, yBeg - y, yBeg + y);
+    }
+}
+
+void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius){
+    for(int x = 0; x <= radius; x++){
+        int y = reversePythagorean(x,radius);
+        createColumn(c, d, xBeg + x, yBeg , yBeg + y);
+        createColumn(c, d, xBeg - x, yBeg , yBeg + y);
+    }
+}
+
+void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius){
+    for(int x = 0; x <= radius; x++){
+        int y = reversePythagorean(x,radius);
+        createColumn(c, d, xBeg + x, yBeg - y, yBeg);
+        createColumn(c, d, xBeg - x, yBeg - y, yBeg);
+    }
+}
+
+///=============================================================================
 ///==== Creates a frame ========================================================
 ///=============================================================================
 void createFrameDeprecated(char c, struct Display d){
