@@ -1,10 +1,9 @@
 #include <stdio.h>
-// #include "display.h" - only if not including animate lib
 #include "animate.h"
 #include <limits.h>
 #include "life.c"
 #include <unistd.h>
-#include <stdbool.h>
+// #include "display.h" - only if not including animate lib
 
 ///=============================================================================
 ///==== Functions used in this playground ======================================
@@ -20,7 +19,7 @@ void buildLunaLogo(struct Display d);
 
 void buildAnimations(struct Display d);
 
-void waitForUserInteraction();
+void waitForUserInteraction(struct Display d);
 
 void printWorld(golWorld *world, struct Display d);
 
@@ -30,13 +29,10 @@ void runGOL(struct Display d);
 ///==== Interactive testing environment ========================================
 ///=============================================================================
 
-bool isWaitingForKeyPress = false;
-
 int main (void){
     /// First is display initialization - measurement of console, initialization
     /// of properly sized 2D char array to hold data for each point on screen
     struct Display disp = initializeDisplay();
-    disp.size.lines--; // to make sure that "Press Any Key" message will fit
 
     // Example no.1 - drawing primitive shapes and texts
     buildPlayground(disp);
@@ -60,12 +56,12 @@ void buildAnimations(struct Display d){
     makeEmptyDisplay(d);
     buildDisplay(d);
     outsideInAnimation(10, d);
-    waitForUserInteraction();
+    waitForUserInteraction(d);
 
     makeEmptyDisplay(d);
     buildDisplay(d);
     insideOutAnimation(10, d);
-    waitForUserInteraction();
+    waitForUserInteraction(d);
 }
 
 void buildPlayground(struct Display d){
@@ -86,7 +82,7 @@ void buildPlayground(struct Display d){
     createCircle('@',d,d.size.columns/2-1,d.size.lines/2-1,d.size.lines/2-2);
     createWheel('@',d,d.size.columns/2 + 15,d.size.lines/2+15,d.size.lines/5);
     buildDisplay((d));
-    waitForUserInteraction();
+    waitForUserInteraction(d);
 }
 
 void buildLunaLogo(struct Display d){
@@ -105,7 +101,7 @@ void buildLunaLogo(struct Display d){
     createWheel(' ',d,halfX-smallWheelR,halfY,smallWheelR);
     createWheel(c,d,halfX+smallWheelR,halfY,smallWheelR);
     buildDisplay((d));
-    waitForUserInteraction();
+    waitForUserInteraction(d);
 }
 
 void createGUI(struct Display d, char c){
@@ -144,13 +140,12 @@ void createGUI(struct Display d, char c){
     }
 
     buildDisplay(d);
-    waitForUserInteraction();
+    waitForUserInteraction(d);
 }
 
-void waitForUserInteraction(){
-    if(isWaitingForKeyPress) {
-        printf("Press Any Key ...");
-    }
+void waitForUserInteraction(struct Display d){
+    createLineText(" Press Any Key ... ",d,1,1);
+    buildDisplay(d);
     getchar();
 }
 

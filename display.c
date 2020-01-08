@@ -186,6 +186,7 @@ void buildDisplay(struct Display d){
         }
         line++;
     }
+    str[d.size.columns*d.size.lines] = '\0';
     printf("%s", str);
     for (int i = 0; i < d.size.columns*d.size.lines; i++) {
         printf("\b");
