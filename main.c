@@ -3,7 +3,7 @@
 #include <limits.h>
 #include "life.c"
 #include <unistd.h>
-// #include "display.h" - only if not including animate lib
+#include "display.h"
 
 ///=============================================================================
 ///==== Functions used in this playground ======================================

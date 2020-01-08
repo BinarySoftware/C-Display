@@ -1,3 +1,5 @@
+#ifndef _DISPLAY
+#define _DISPLAY
 #define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
 
 ///=============================================================================
@@ -64,3 +66,5 @@ void createFrame(char c, struct Display d);
 ///==== DEPRECATED Methods =====================================================
 ///=============================================================================
 __deprecated void createFrameDeprecated(char c, struct Display d);
+
+#endif
