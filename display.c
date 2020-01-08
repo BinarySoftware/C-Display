@@ -172,20 +172,23 @@ void createFrame(char c, struct Display d){
 ///=============================================================================
 void buildDisplay(struct Display d){
     int line = 0;
+    char str[d.size.columns*d.size.lines+1];
     while(line < d.size.lines){
         int column = 0;
-        char strLn[d.size.columns];
         while (column < d.size.columns){
             char c =  d.array[line][column];
             // Fix for non-readable ASCII characters
             if (c < 32){
                 c = ' ';
             }
-            strLn[column] = c;
+            str[d.size.columns*line + column] = c;
             column++;
         }
-        puts(strLn);
         line++;
+    }
+    printf("%s", str);
+    for (int i = 0; i < d.size.columns*d.size.lines; i++) {
+        printf("\b");
     }
 }
 

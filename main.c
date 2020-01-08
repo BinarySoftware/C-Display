@@ -4,6 +4,7 @@
 #include <limits.h>
 #include "life.c"
 #include <unistd.h>
+#include <stdbool.h>
 
 ///=============================================================================
 ///==== Functions used in this playground ======================================
@@ -28,6 +29,8 @@ void runGOL(struct Display d);
 ///=============================================================================
 ///==== Interactive testing environment ========================================
 ///=============================================================================
+
+bool isWaitingForKeyPress = false;
 
 int main (void){
     /// First is display initialization - measurement of console, initialization
@@ -145,7 +148,9 @@ void createGUI(struct Display d, char c){
 }
 
 void waitForUserInteraction(){
-    printf("Press Any Key ...");
+    if(isWaitingForKeyPress) {
+        printf("Press Any Key ...");
+    }
     getchar();
 }
 
