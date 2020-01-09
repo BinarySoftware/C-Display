@@ -1,5 +1,5 @@
-#ifndef _DISPLAY
-#define _DISPLAY
+#ifndef _DISPLAY_H
+#define _DISPLAY_H
 #define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
 
 ///=============================================================================

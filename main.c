@@ -4,6 +4,7 @@
 #include "life.c"
 #include <unistd.h>
 #include "display.h"
+#include "color.h"
 
 ///=============================================================================
 ///==== Functions used in this playground ======================================
@@ -44,7 +45,10 @@ int main (void){
     createGUI(disp,'#');
 
     // And Luna Logo
+    setColor(red);
     buildLunaLogo(disp);
+    setColor(blue);
+    resetColor();
 
     runGOL(disp);
     /// Please remember to destroy display before ending app, to free up memory!
