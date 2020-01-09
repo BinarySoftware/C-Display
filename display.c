@@ -27,7 +27,7 @@ void makeEmptyDisplay(struct Display d){
 ///=============================================================================
 void pushCharToPoint(char c, int ln, int col, struct Display d){
     if(ln < d.size.lines && col < d.size.columns && ln >= 0 && col >= 0){
-        d.array[ln][col] = c;
+        d.array[ln][col].c = c;
     }
 }
 
@@ -150,9 +150,8 @@ void createFrameDeprecated(char c, struct Display d){
     while(line < d.size.lines){
         int column = 0;
         while (column < d.size.columns){
-            if (column == 0 || column == d.size.columns - 1){
-                pushCharToPoint(c, line, column, d);
-            } else if (line == 0 || line == d.size.lines - 1){
+            if (column == 0 || column == d.size.columns - 1 ||
+                line == 0 || line == d.size.lines - 1) {
                 pushCharToPoint(c, line, column, d);
             } else {
                 pushCharToPoint(' ', line, column, d);
@@ -170,13 +169,13 @@ void createFrame(char c, struct Display d){
 ///=============================================================================
 ///==== Builds (prints out) display ============================================
 ///=============================================================================
-void buildDisplay(struct Display d){
+void buildMonochromeDisplay(struct Display d){
     int line = 0;
     char str[d.size.columns*d.size.lines+1];
     while(line < d.size.lines){
         int column = 0;
         while (column < d.size.columns){
-            char c =  d.array[line][column];
+            char c =  d.array[line][column].c;
             // Fix for non-readable ASCII characters
             if (c < 32){
                 c = ' ';
@@ -193,20 +192,42 @@ void buildDisplay(struct Display d){
     }
 }
 
+void buildColorDisplay(struct Display d){
+    int line = 0;
+    while(line < d.size.lines){
+        int column = 0;
+        while (column < d.size.columns){
+            struct Point p =  d.array[line][column];
+            setColor(p.color);
+            // Fix for non-readable ASCII characters
+            if (p.c < 32){
+                p.c = ' ';
+            }
+            printf("%c", p.c);
+            resetColor();
+            column++;
+        }
+        line++;
+    }
+    for (int i = 0; i < d.size.columns*d.size.lines-1; i++) {
+        printf("\b");
+    }
+}
+
 ///=============================================================================
 ///==== Management of 2D Array & Display =======================================
 ///=============================================================================
 struct Display initializeDisplay(){
     struct Size size = getTerminalSize();
-    char** array = initializeArray(size.columns, size.lines);
-    struct Display display = {size, array};
+    struct Point** pointsArray = initializeArray(size.columns, size.lines);
+    struct Display display = {size, pointsArray};
     makeEmptyDisplay(display);
     return display;
 }
 
-char** initializeArray(int m, int n){
-    char* values = calloc(m*n, sizeof(char));
-    char** rows = malloc(n*sizeof(char*));
+struct Point ** initializeArray(int m, int n){
+    struct Point* values = calloc(m*n, sizeof(struct Point));
+    struct Point** rows = malloc(n*sizeof(struct Point*));
     for (int i=0; i<n; ++i){
         rows[i] = values + i*m;
     }

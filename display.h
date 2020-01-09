@@ -1,5 +1,8 @@
 #ifndef _DISPLAY_H
 #define _DISPLAY_H
+
+#include "color.h"
+
 #define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
 
 ///=============================================================================
@@ -13,11 +16,19 @@ struct Size {
 struct Size getTerminalSize(void);
 
 ///=============================================================================
+///==== Structure for keeping point char with Color data =======================
+///=============================================================================
+struct Point {
+    char c;
+    enum Color color;
+};
+
+///=============================================================================
 ///==== Structure for keeping data of Display ==================================
 ///=============================================================================
 struct Display {
     struct Size size;
-    char** array;
+    struct Point** array;
 };
 
 struct Display initializeDisplay();
@@ -25,14 +36,15 @@ struct Display initializeDisplay();
 ///=============================================================================
 ///==== Display array management and building ==================================
 ///=============================================================================
-char** initializeArray(int m, int n);
+struct Point ** initializeArray(int m, int n);
 
 void destroyDisplay(struct Display d);
 
 void makeEmptyDisplay(struct Display d);
 
-void buildDisplay(struct Display d);
+void buildMonochromeDisplay(struct Display d);
 
+void buildColorDisplay(struct Display d);
 
 ///=============================================================================
 ///==== Methods for creating shapes on display =================================

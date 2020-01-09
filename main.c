@@ -58,12 +58,12 @@ int main (void){
 
 void buildAnimations(struct Display d){
     makeEmptyDisplay(d);
-    buildDisplay(d);
+    buildMonochromeDisplay(d);
     outsideInAnimation(10, d);
     waitForUserInteraction(d);
 
     makeEmptyDisplay(d);
-    buildDisplay(d);
+    buildMonochromeDisplay(d);
     insideOutAnimation(10, d);
     waitForUserInteraction(d);
 }
@@ -85,7 +85,8 @@ void buildPlayground(struct Display d){
     createBox('&', (d), 52, 40, 72, 50);
     createCircle('@',d,d.size.columns/2-1,d.size.lines/2-1,d.size.lines/2-2);
     createWheel('@',d,d.size.columns/2 + 15,d.size.lines/2+15,d.size.lines/5);
-    buildDisplay((d));
+//    buildMonochromeDisplay((d));
+    buildColorDisplay(d);
     waitForUserInteraction(d);
 }
 
@@ -104,7 +105,7 @@ void buildLunaLogo(struct Display d){
     int smallWheelR = semiR/2;
     createWheel(' ',d,halfX-smallWheelR,halfY,smallWheelR);
     createWheel(c,d,halfX+smallWheelR,halfY,smallWheelR);
-    buildDisplay((d));
+    buildMonochromeDisplay((d));
     waitForUserInteraction(d);
 }
 
@@ -143,13 +144,13 @@ void createGUI(struct Display d, char c){
         createLineText(t2, d, i + 13, d.size.columns / 2 + 3);
     }
 
-    buildDisplay(d);
+    buildMonochromeDisplay(d);
     waitForUserInteraction(d);
 }
 
 void waitForUserInteraction(struct Display d){
     createLineText(" Press Any Key ... ",d,1,1);
-    buildDisplay(d);
+    buildMonochromeDisplay(d);
     getchar();
 }
 
@@ -172,7 +173,7 @@ void printWorld(golWorld *world, struct Display d){
         }
     }
 
-    buildDisplay(d);
+    buildMonochromeDisplay(d);
 }
 
 void runGOL(struct Display d) {

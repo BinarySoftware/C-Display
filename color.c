@@ -2,7 +2,7 @@
 
 #include "color.h"
 
-void setColor(enum color c){
+void setColor(enum Color c){
     char escape[] = "\033";
     char * col;
     switch (c) {
@@ -41,6 +41,9 @@ void setColor(enum color c){
             break;
         case boldCyan:
             col = "[1;36m";
+            break;
+        default:
+            col = "[0m";
             break;
     }
     printf("%s%s",escape,col);

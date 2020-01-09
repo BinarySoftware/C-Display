@@ -4,7 +4,7 @@
 ///=============================================================================
 ///==== Enumeration of all colors possible to print out in Terminal ============
 ///=============================================================================
-enum color {
+enum Color {
     red,
     boldRed,
     green,
@@ -16,13 +16,14 @@ enum color {
     magenta,
     boldMagenta,
     cyan,
-    boldCyan
+    boldCyan,
+    defaultColor
 };
 
 ///=============================================================================
 ///==== Functions for setting and resetting colors =============================
 ///=============================================================================
-void setColor(enum color c);
+void setColor(enum Color c);
 
 void resetColor();
 
