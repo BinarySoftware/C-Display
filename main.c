@@ -29,13 +29,21 @@ void runGOL(struct Display d, int isColor);
 ///=============================================================================
 ///==== Interactive testing environment ========================================
 ///=============================================================================
+#include <sys/time.h>
 
+//long long current_timestamp() {
+//    struct timeval te;
+//    gettimeofday(&te, NULL); // get current time
+//    long long milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // calc ms
+//    return milliseconds;
+//}
 int main (void){
     /// First is display initialization - measurement of console, initialization
     /// of properly sized 2D char array to hold data for each point on screen
+//    long long timeBeginning = current_timestamp();
     struct Display disp = initializeDisplay();
     /// Prints in color or in monochrome mode
-    int isColor = 1;
+    int isColor = 0;
 
     // Example no.1 - drawing primitive shapes and texts
     buildPlayground(disp, isColor);
@@ -55,6 +63,12 @@ int main (void){
 
     /// Please remember to destroy display before ending app, to free up memory!
     destroyDisplay(disp);
+//    long long timeEnd= current_timestamp();
+//    long long deltaT = timeEnd - timeBeginning;
+//    printf("Took %lld ms. to render this test bench", deltaT);
+    // Color : 47182ms
+    // Mono  : 18652ms
+    // Color Took 2.53x time to render the same scene, with noticeable FPS drop.
     return 0;
 }
 
