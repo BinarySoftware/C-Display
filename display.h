@@ -53,32 +53,32 @@ void buildColorDisplay(struct Display d);
 ///=============================================================================
 void pushCharToPoint(char c, int ln, int col, struct Display d, enum Color color);
 
-void createLine(char c, struct Display d, int ln, int beg, int end);
+void createLine(char c, struct Display d, int ln, int beg, int end, enum Color color);
 
-void createColumn(char c, struct Display d, int col, int beg, int end);
+void createColumn(char c, struct Display d, int col, int beg, int end, enum Color color);
 
-void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd);
+void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd, enum Color color);
 
-void createLineText(char* c, struct Display d, int ln, int beg);
+void createLineText(char* c, struct Display d, int ln, int beg, enum Color color);
 
-void createColumnText(char* c, struct Display d, int col, int beg);
+void createColumnText(char* c, struct Display d, int col, int beg, enum Color color);
 
-void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd);
+void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd, enum Color color);
 
-void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius);
+void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color);
 
-void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius);
+void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color);
 
-void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius);
+void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color);
 
-void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius);
+void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color);
 
-void createFrame(char c, struct Display d);
+void createFrame(char c, struct Display d, enum Color color);
 
 
 ///=============================================================================
 ///==== DEPRECATED Methods =====================================================
 ///=============================================================================
-__deprecated void createFrameDeprecated(char c, struct Display d);
+__deprecated void createFrameDeprecated(char c, struct Display d, enum Color color);
 
 #endif

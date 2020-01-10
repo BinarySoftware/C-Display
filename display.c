@@ -35,42 +35,42 @@ void pushCharToPoint(char c, int ln, int col, struct Display d, enum Color color
 ///=============================================================================
 ///==== Creates lines and columns of specified length ==========================
 ///=============================================================================
-void createLine(char c, struct Display d, int ln, int beg, int end){
+void createLine(char c, struct Display d, int ln, int beg, int end, enum Color color){
     for(int i = beg; i < end; i++){
-        pushCharToPoint(c, ln, i, d, red);
+        pushCharToPoint(c, ln, i, d, color);
     }
 }
 
-void createColumn(char c, struct Display d, int col, int beg, int end){
+void createColumn(char c, struct Display d, int col, int beg, int end, enum Color color){
     for(int i = beg; i < end; i++){
-        pushCharToPoint(c, i, col, d, blue);
+        pushCharToPoint(c, i, col, d, color);
     }
 }
 
 ///=============================================================================
 ///==== Creates lines and columns from strings =================================
 ///=============================================================================
-void createLineText(char* c, struct Display d, int ln, int beg){
+void createLineText(char* c, struct Display d, int ln, int beg, enum Color color){
     for(int i = 0; i < d.size.columns-1; i++){
         if(c[i] == '\0'){
             break;
         }
-        pushCharToPoint(c[i], ln, i+beg, d, green);
+        pushCharToPoint(c[i], ln, i+beg, d, color);
     }
 }
-void createColumnText(char* c, struct Display d, int col, int beg){
+void createColumnText(char* c, struct Display d, int col, int beg, enum Color color){
     for(int i = 0; i < d.size.lines-1; i++){
         if(c[i] == '\0'){
             break;
         }
-        pushCharToPoint(c[i], i+beg, col, d, magenta);
+        pushCharToPoint(c[i], i+beg, col, d, color);
     }
 }
 
 ///=============================================================================
 ///==== Calculates and creates diagonals from start and end points =============
 ///=============================================================================
-void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd){
+void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd, enum Color color){
     float xB = (float) xBeg;
     float yB = (float) yBeg;
     float xE = (float) xEnd;
@@ -79,25 +79,25 @@ void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int 
     for(int x = xBeg; x <= xEnd; x++){
         float tga = (yE-yB)/(xE - xB);
         int y = floor(tga*((float)x) + (yE - tga*xE));
-        pushCharToPoint(c,y,x,d,boldGreen);
+        pushCharToPoint(c, y, x, d, color);
     }
 }
 
 ///=============================================================================
 ///==== Creates 2D boxes =======================================================
 ///=============================================================================
-void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd){
+void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd, enum Color color){
     if(xBeg == xEnd && yBeg == yEnd){
-        pushCharToPoint(c,yBeg,xBeg,d,boldBlue);
+        pushCharToPoint(c, yBeg, xBeg, d, color);
     }else if(xBeg == xEnd){
-        createColumn(c, d, xBeg,yBeg,yEnd+1);
+        createColumn(c, d, xBeg, yBeg, yEnd+1, color);
     }else if(yBeg == yEnd){
-        createLine(c, d, yBeg,xBeg,xEnd);
+        createLine(c, d, yBeg, xBeg, xEnd, color);
     } else {
-        createColumn(c, d, xBeg,yBeg,yEnd);
-        createColumn(c, d, xEnd,yBeg,yEnd);
-        createLine(c, d, yBeg,xBeg,xEnd+1);
-        createLine(c, d, yEnd,xBeg,xEnd+1);
+        createColumn(c, d, xBeg, yBeg, yEnd, color);
+        createColumn(c, d, xEnd, yBeg, yEnd, color);
+        createLine(c, d, yBeg, xBeg, xEnd+1, color);
+        createLine(c, d, yEnd, xBeg, xEnd+1, color);
     }
 }
 
@@ -109,53 +109,53 @@ int reversePythagorean(int x, int r){
     return ((y)>=0?(int)((y)+0.5):(int)((y)-0.5));
 }
 
-void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius){
+void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
-        pushCharToPoint(c, yBeg + y, xBeg + x, d,boldCyan);
-        pushCharToPoint(c, yBeg + y, xBeg - x, d,boldCyan);
-        pushCharToPoint(c, yBeg - y, xBeg + x, d,boldCyan);
-        pushCharToPoint(c, yBeg - y, xBeg - x, d,boldCyan);
+        pushCharToPoint(c, yBeg + y, xBeg + x, d, color);
+        pushCharToPoint(c, yBeg + y, xBeg - x, d, color);
+        pushCharToPoint(c, yBeg - y, xBeg + x, d, color);
+        pushCharToPoint(c, yBeg - y, xBeg - x, d, color);
     }
 }
 
-void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius){
+void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
-        createColumn(c, d, xBeg + x, yBeg - y, yBeg + y);
-        createColumn(c, d, xBeg - x, yBeg - y, yBeg + y);
+        createColumn(c, d, xBeg + x, yBeg - y, yBeg + y, color);
+        createColumn(c, d, xBeg - x, yBeg - y, yBeg + y, color);
     }
 }
 
-void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius){
+void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
-        createColumn(c, d, xBeg + x, yBeg , yBeg + y);
-        createColumn(c, d, xBeg - x, yBeg , yBeg + y);
+        createColumn(c, d, xBeg + x, yBeg , yBeg + y, color);
+        createColumn(c, d, xBeg - x, yBeg , yBeg + y, color);
     }
 }
 
-void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius){
+void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
-        createColumn(c, d, xBeg + x, yBeg - y, yBeg);
-        createColumn(c, d, xBeg - x, yBeg - y, yBeg);
+        createColumn(c, d, xBeg + x, yBeg - y, yBeg, color);
+        createColumn(c, d, xBeg - x, yBeg - y, yBeg, color);
     }
 }
 
 ///=============================================================================
 ///==== Creates a frame ========================================================
 ///=============================================================================
-void createFrameDeprecated(char c, struct Display d){
+void createFrameDeprecated(char c, struct Display d, enum Color color){
     int line = 0;
     while(line < d.size.lines){
         int column = 0;
         while (column < d.size.columns){
             if (column == 0 || column == d.size.columns - 1 ||
                 line == 0 || line == d.size.lines - 1) {
-                pushCharToPoint(c, line, column, d,boldBlue);
+                pushCharToPoint(c, line, column, d,color);
             } else {
-                pushCharToPoint(' ', line, column, d, boldBlue);
+                pushCharToPoint(' ', line, column, d, color);
             }
             column++;
         }
@@ -163,8 +163,8 @@ void createFrameDeprecated(char c, struct Display d){
     }
 }
 
-void createFrame(char c, struct Display d){
-    createBox(c,d,0,0,d.size.columns-1,d.size.lines-1);
+void createFrame(char c, struct Display d, enum Color color){
+    createBox(c, d, 0, 0, d.size.columns-1, d.size.lines-1, color);
 }
 
 ///=============================================================================

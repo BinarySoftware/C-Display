@@ -48,14 +48,12 @@ void setColor(enum Color c){
             break;
     }
     printf("%s%s",escape,col);
-//    printf("\b");
 }
 
 void resetColor(){
     char escape[] = "\033";
     char col[] = "[0m";
     printf("%s%s",escape,col);
-//    printf("\b");
 }
 
 enum Color getRandomColorValue() {
