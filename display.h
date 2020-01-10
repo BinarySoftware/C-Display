@@ -42,6 +42,8 @@ void destroyDisplay(struct Display d);
 
 void makeEmptyDisplay(struct Display d);
 
+void buildDisplay(struct Display d, int isColorMode);
+
 void buildMonochromeDisplay(struct Display d);
 
 void buildColorDisplay(struct Display d);
@@ -49,7 +51,7 @@ void buildColorDisplay(struct Display d);
 ///=============================================================================
 ///==== Methods for creating shapes on display =================================
 ///=============================================================================
-void pushCharToPoint(char c, int ln, int col, struct Display d);
+void pushCharToPoint(char c, int ln, int col, struct Display d, enum Color color);
 
 void createLine(char c, struct Display d, int ln, int beg, int end);
 

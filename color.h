@@ -27,4 +27,6 @@ void setColor(enum Color c);
 
 void resetColor();
 
+enum Color getRandomColorValue();
+
 #endif

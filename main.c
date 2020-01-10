@@ -10,21 +10,21 @@
 ///==== Functions used in this playground ======================================
 ///=============================================================================
 
-void createGUI(struct Display d, char c);
+void createGUI(struct Display d, char c, int isColor);
 
 long fact(long i);
 
-void buildPlayground(struct Display d);
+void buildPlayground(struct Display d, int isColor);
 
-void buildLunaLogo(struct Display d);
+void buildLunaLogo(struct Display d, int isColor);
 
-void buildAnimations(struct Display d);
+void buildAnimations(struct Display d, int isColor);
 
-void waitForUserInteraction(struct Display d);
+void waitForUserInteraction(struct Display d, int isColor);
 
-void printWorld(golWorld *world, struct Display d);
+void printWorld(golWorld *world, struct Display d, int isColor);
 
-void runGOL(struct Display d);
+void runGOL(struct Display d, int isColor);
 
 ///=============================================================================
 ///==== Interactive testing environment ========================================
@@ -34,41 +34,43 @@ int main (void){
     /// First is display initialization - measurement of console, initialization
     /// of properly sized 2D char array to hold data for each point on screen
     struct Display disp = initializeDisplay();
+    /// Prints in color or in monochrome mode
+    int isColor = 1;
 
     // Example no.1 - drawing primitive shapes and texts
-    buildPlayground(disp);
+    buildPlayground(disp, isColor);
 
     // Example no.2 & 3 - animations with C-Display
-    buildAnimations(disp);
+    buildAnimations(disp, isColor);
 
     // Now it's time for GUI mock-up
-    createGUI(disp,'#');
+    createGUI(disp,'#', isColor);
 
     // And Luna Logo
-    setColor(red);
-    buildLunaLogo(disp);
-    setColor(blue);
-    resetColor();
+    buildLunaLogo(disp, isColor);
 
-    runGOL(disp);
+    // The last example may be hard for your computer in color mode
+    // The Conway's Game of Life
+    runGOL(disp, isColor);
+
     /// Please remember to destroy display before ending app, to free up memory!
     destroyDisplay(disp);
     return 0;
 }
 
-void buildAnimations(struct Display d){
+void buildAnimations(struct Display d, int isColor){
     makeEmptyDisplay(d);
-    buildMonochromeDisplay(d);
-    outsideInAnimation(10, d);
-    waitForUserInteraction(d);
+    buildDisplay(d, isColor);
+    outsideInAnimation(10, d, isColor);
+    waitForUserInteraction(d, isColor);
 
     makeEmptyDisplay(d);
-    buildMonochromeDisplay(d);
-    insideOutAnimation(10, d);
-    waitForUserInteraction(d);
+    buildDisplay(d, isColor);
+    insideOutAnimation(10, d, isColor);
+    waitForUserInteraction(d, isColor);
 }
 
-void buildPlayground(struct Display d){
+void buildPlayground(struct Display d, int isColor){
     printf("Terminal is %d columns by %d lines.\n", d.size.columns, d.size.lines);
     createFrame('#', (d));
     createColumn('*', (d), 10, 4, 18);
@@ -76,7 +78,7 @@ void buildPlayground(struct Display d){
     createLine('*', (d), 17, 10, 25);
     createColumnText("Co jest ?", (d), 30, 5);
     createLineText("Wszystkiego najlepszego bober!", (d), 52, 15);
-    pushCharToPoint('F', 33, 54, (d));
+    pushCharToPoint('F', 33, 54, (d),green);
     createDiagonal('%', (d), 50, 8, 74, 32);
     createDiagonal('%', (d), 50, 18, 74, 32);
     createDiagonal('%', (d), 50, 28, 74, 32);
@@ -85,12 +87,11 @@ void buildPlayground(struct Display d){
     createBox('&', (d), 52, 40, 72, 50);
     createCircle('@',d,d.size.columns/2-1,d.size.lines/2-1,d.size.lines/2-2);
     createWheel('@',d,d.size.columns/2 + 15,d.size.lines/2+15,d.size.lines/5);
-//    buildMonochromeDisplay((d));
-    buildColorDisplay(d);
-    waitForUserInteraction(d);
+    buildDisplay(d, isColor);
+    waitForUserInteraction(d, isColor);
 }
 
-void buildLunaLogo(struct Display d){
+void buildLunaLogo(struct Display d, int isColor){
     char c = '#';
     makeEmptyDisplay(d);
 
@@ -105,11 +106,11 @@ void buildLunaLogo(struct Display d){
     int smallWheelR = semiR/2;
     createWheel(' ',d,halfX-smallWheelR,halfY,smallWheelR);
     createWheel(c,d,halfX+smallWheelR,halfY,smallWheelR);
-    buildMonochromeDisplay((d));
-    waitForUserInteraction(d);
+    buildDisplay(d, isColor);
+    waitForUserInteraction(d, isColor);
 }
 
-void createGUI(struct Display d, char c){
+void createGUI(struct Display d, char c, int isColor){
     // Cleans up display from previous structures
     makeEmptyDisplay(d);
 
@@ -144,13 +145,13 @@ void createGUI(struct Display d, char c){
         createLineText(t2, d, i + 13, d.size.columns / 2 + 3);
     }
 
-    buildMonochromeDisplay(d);
-    waitForUserInteraction(d);
+    buildDisplay(d, isColor);
+    waitForUserInteraction(d, isColor);
 }
 
-void waitForUserInteraction(struct Display d){
+void waitForUserInteraction(struct Display d, int isColor){
     createLineText(" Press Any Key ... ",d,1,1);
-    buildMonochromeDisplay(d);
+    buildDisplay(d, isColor);;
     getchar();
 }
 
@@ -163,27 +164,27 @@ long fact(long i){
     }
 }
 
-void printWorld(golWorld *world, struct Display d){
+void printWorld(golWorld *world, struct Display d, int isColor) {
     int x, y;
 
-    for(y = 0; y < world->height; y++) {
-        for(x = 0; x < world->width; x++) {
+    for (y = 0; y < world->height; y++) {
+        for (x = 0; x < world->width; x++) {
             char c = (world->array[y][x]).on ? '#' : ' ';
-            pushCharToPoint(c,y,x,d);
+            pushCharToPoint(c, y, x, d, getRandomColorValue());
         }
     }
 
-    buildMonochromeDisplay(d);
+    buildDisplay(d, isColor);
 }
 
-void runGOL(struct Display d) {
+void runGOL(struct Display d, int isColor) {
     golWorld gameoflife;
 
     if(createworld(&gameoflife, d.size.columns, d.size.lines)) {
         randomizeworld(&gameoflife);
         int i = 0;
         do {
-            printWorld(&gameoflife, d);
+            printWorld(&gameoflife, d, isColor);
             usleep(10*1000);
             updateworld(&gameoflife);
             i++;

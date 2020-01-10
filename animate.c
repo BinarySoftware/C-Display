@@ -4,14 +4,14 @@
 ///==== Outside-In Animation, with specified time per frame ====================
 ///=============================================================================
 
-void outsideInAnimation(int time, struct Display d) {
+void outsideInAnimation(int time, struct Display d, int isColor) {
     createFrame('#', d);
-    buildMonochromeDisplay(d);
+    buildDisplay(d, isColor);
     usleep(time*1000);
     int h = getMinHalf(d);
     for(int i = 0; i <= h; i+=2){
         createBox('#', d, i, i, d.size.columns - i,d.size.lines - i);
-        buildMonochromeDisplay(d);
+        buildDisplay(d, isColor);
         usleep(time*1000);
     }
 }
@@ -20,16 +20,16 @@ void outsideInAnimation(int time, struct Display d) {
 ///==== Inside-out Animation, with specified time per frame ====================
 ///=============================================================================
 
-void insideOutAnimation(int time, struct Display d) {
+void insideOutAnimation(int time, struct Display d, int isColor) {
     createFrame('#', d);
-    buildMonochromeDisplay(d);
+    buildDisplay(d, isColor);
     usleep(time*1000);
     int halfC = d.size.columns / 2;
     int halfL = d.size.lines / 2;
     int h = getMaxHalf(d);
     for(int i = 0; i <= h; i+=2){
         createBox('#', d, halfC - i, halfL - i, halfC + i ,halfL + i);
-        buildMonochromeDisplay(d);
+        buildDisplay(d, isColor);
         usleep(time*1000);
     }
 }

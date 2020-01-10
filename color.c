@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "color.h"
 
@@ -47,12 +48,16 @@ void setColor(enum Color c){
             break;
     }
     printf("%s%s",escape,col);
-    printf("\b");
+//    printf("\b");
 }
 
 void resetColor(){
     char escape[] = "\033";
     char col[] = "[0m";
     printf("%s%s",escape,col);
-    printf("\b");
+//    printf("\b");
+}
+
+enum Color getRandomColorValue() {
+    return (enum Color)(rand() % 12);
 }

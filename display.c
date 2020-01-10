@@ -15,7 +15,7 @@ void makeEmptyDisplay(struct Display d){
     while(line < d.size.lines){
         int column = 0;
         while (column < d.size.columns){
-            pushCharToPoint(' ', line, column, d);
+            pushCharToPoint(' ', line, column, d, defaultColor);
             column++;
         }
         line++;
@@ -25,9 +25,10 @@ void makeEmptyDisplay(struct Display d){
 ///=============================================================================
 ///==== Pushes char to specified point in display's array ======================
 ///=============================================================================
-void pushCharToPoint(char c, int ln, int col, struct Display d){
+void pushCharToPoint(char c, int ln, int col, struct Display d, enum Color color){
     if(ln < d.size.lines && col < d.size.columns && ln >= 0 && col >= 0){
         d.array[ln][col].c = c;
+        d.array[ln][col].color = color;
     }
 }
 
@@ -36,13 +37,13 @@ void pushCharToPoint(char c, int ln, int col, struct Display d){
 ///=============================================================================
 void createLine(char c, struct Display d, int ln, int beg, int end){
     for(int i = beg; i < end; i++){
-        pushCharToPoint(c, ln, i, d);
+        pushCharToPoint(c, ln, i, d, red);
     }
 }
 
 void createColumn(char c, struct Display d, int col, int beg, int end){
     for(int i = beg; i < end; i++){
-        pushCharToPoint(c, i, col, d);
+        pushCharToPoint(c, i, col, d, blue);
     }
 }
 
@@ -54,7 +55,7 @@ void createLineText(char* c, struct Display d, int ln, int beg){
         if(c[i] == '\0'){
             break;
         }
-        pushCharToPoint(c[i], ln, i+beg, d);
+        pushCharToPoint(c[i], ln, i+beg, d, green);
     }
 }
 void createColumnText(char* c, struct Display d, int col, int beg){
@@ -62,7 +63,7 @@ void createColumnText(char* c, struct Display d, int col, int beg){
         if(c[i] == '\0'){
             break;
         }
-        pushCharToPoint(c[i], i+beg, col, d);
+        pushCharToPoint(c[i], i+beg, col, d, magenta);
     }
 }
 
@@ -78,7 +79,7 @@ void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int 
     for(int x = xBeg; x <= xEnd; x++){
         float tga = (yE-yB)/(xE - xB);
         int y = floor(tga*((float)x) + (yE - tga*xE));
-        pushCharToPoint(c,y,x,d);
+        pushCharToPoint(c,y,x,d,boldGreen);
     }
 }
 
@@ -87,7 +88,7 @@ void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int 
 ///=============================================================================
 void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd){
     if(xBeg == xEnd && yBeg == yEnd){
-        pushCharToPoint(c,yBeg,xBeg,d);
+        pushCharToPoint(c,yBeg,xBeg,d,boldBlue);
     }else if(xBeg == xEnd){
         createColumn(c, d, xBeg,yBeg,yEnd+1);
     }else if(yBeg == yEnd){
@@ -111,10 +112,10 @@ int reversePythagorean(int x, int r){
 void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
-        pushCharToPoint(c, yBeg + y, xBeg + x, d);
-        pushCharToPoint(c, yBeg + y, xBeg - x, d);
-        pushCharToPoint(c, yBeg - y, xBeg + x, d);
-        pushCharToPoint(c, yBeg - y, xBeg - x, d);
+        pushCharToPoint(c, yBeg + y, xBeg + x, d,boldCyan);
+        pushCharToPoint(c, yBeg + y, xBeg - x, d,boldCyan);
+        pushCharToPoint(c, yBeg - y, xBeg + x, d,boldCyan);
+        pushCharToPoint(c, yBeg - y, xBeg - x, d,boldCyan);
     }
 }
 
@@ -152,9 +153,9 @@ void createFrameDeprecated(char c, struct Display d){
         while (column < d.size.columns){
             if (column == 0 || column == d.size.columns - 1 ||
                 line == 0 || line == d.size.lines - 1) {
-                pushCharToPoint(c, line, column, d);
+                pushCharToPoint(c, line, column, d,boldBlue);
             } else {
-                pushCharToPoint(' ', line, column, d);
+                pushCharToPoint(' ', line, column, d, boldBlue);
             }
             column++;
         }
@@ -169,6 +170,14 @@ void createFrame(char c, struct Display d){
 ///=============================================================================
 ///==== Builds (prints out) display ============================================
 ///=============================================================================
+void buildDisplay(struct Display d, int isColorMode){
+    if (isColorMode) {
+        buildColorDisplay(d);
+    } else {
+        buildMonochromeDisplay(d);
+    }
+}
+
 void buildMonochromeDisplay(struct Display d){
     int line = 0;
     char str[d.size.columns*d.size.lines+1];
