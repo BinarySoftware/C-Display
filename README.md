@@ -28,6 +28,8 @@ another, and another, and so on screens just to update one point
 - forgivable - if shape passes out of screen bounds, it will be simply cut to
 bounds
 - lightweight - no need to explain that.
+- Extremely fast - 360 FPS achieved in demanding Game Of Life benchmark in Mono 
+mode, with 214 FPS in Color
 - automated screen sizing to dimensions of your current console instance -> 
 possibility to adjust shapes based on screen size
 
@@ -39,13 +41,18 @@ back to default color, so in my test bench, it's now 2.5x as fast, there is no
 noticeable difference between Color or Mono mode when it comes to FPS. It just 
 looks better, and allows you to create smooth animations, beautiful display models
 or even games, like snake, or space invaders.
-- Mono - This one is as fast as it can be. For example, the test bench took about 
+- Mono - This one is as fast as it can be. For example, the test suite took about 
 19.6 seconds to complete in Color mode, but only 18.6 in Mono - it was 1.06x as fast,
 because of how I managed to optimize color mode, there is no noticeable difference
 between those two rendering modes, so i leave Mono mode only for ones who would 
 really need it. There is only one call to `printf()` per all `buildDisplay()` 
 and there are no calls to 'setColor()' or 'resetColor()' whatsoever, as it only 
 displays every shape in terminal's default color.
+But after adding a proper benchmarking suite which wont leave time for CPU to cool
+down, I observed, that Mono mode was faster on average by 1.6x than Color, which 
+still managed to push out 214 FPS, while mono did blazing 361. So if you need a tool
+which can blast out frames like crazy, Mono is for you. Every other application - 
+make something nice for our eyes in Color mode.
 
 For all available functions, please check declarations in `display.h`.
 

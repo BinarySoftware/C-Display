@@ -26,11 +26,15 @@ void waitForUserInteraction(struct Display d, int isColor);
 
 void printWorld(golWorld *world, struct Display d, int isColor);
 
-void runGOL(struct Display d, int isColor);
+void runGOL(struct Display d, int isColor, int timeMs, int generations);
+
+void bench(int isColor);
+
+void testRun(int isColor);
 
 ///=============================================================================
 ///==== Interactive testing environment ========================================
-///============================================================================
+///=============================================================================
 
 long long currentTimeMs() {
     struct timeval te;
@@ -42,13 +46,25 @@ long long currentTimeMs() {
 int main (void){
     int t = time(0);
     srand(t); // Inicjalizacja losowego ziarna do randomizacji kolorow
+
+    /// Test suite - shows example playground in both Color & Mono
+    testRun(1);
+    testRun(0);
+
+    /// Benchmarking suite - Game Of Life with no sleep time - just to get almost
+    /// bare performance difference for Mono vs. Color rendering methods
+    bench(0);
+    bench(1);
+    return 0;
+}
+
+void testRun(int isColor){
     long long timeBeginning = currentTimeMs();
 
     /// First is display initialization - measurement of console, initialization
     /// of properly sized 2D char array to hold data for each point on screen
     struct Display disp = initializeDisplay();
     /// Prints in color or in monochrome mode
-    int isColor = 1;
 
     // Example no.1 - drawing primitive shapes and texts
     buildPlayground(disp, isColor);
@@ -64,19 +80,44 @@ int main (void){
 
     // The last example may be hard for your computer in color mode
     // The Conway's Game of Life
-    runGOL(disp, isColor);
+    runGOL(disp, isColor, 10, 1000);
 
     /// Please remember to destroy display before ending app, to free up memory!
     destroyDisplay(disp);
 
     long long timeEnd = currentTimeMs();
     long long deltaT = timeEnd - timeBeginning;
-    printf("Took %lld ms. to render this test bench", deltaT);
+    printf("Took %lld ms. to render this benchmark, isColor: %d\n", deltaT, isColor);
+
     /// Color : 19868ms
     /// Mono  : 18647ms
     /// Color Took 1.065x time to render the same scene, without noticeable FPS drop.
-    return 0;
+    /// Therefore, in real-life applications there should be no noticeable difference.
 }
+
+void bench(int isColor){
+    long long timeBeginning = currentTimeMs();
+    int generations = 2000;
+
+    struct Display disp = initializeDisplay();
+    runGOL(disp, isColor, 0, generations);
+
+    destroyDisplay(disp);
+
+    long long timeEnd = currentTimeMs();
+    long long deltaT = timeEnd - timeBeginning;
+    long long fps = generations*1000/deltaT;
+    printf("Took %lld ms. to render this benchmark, isColor: %d, avg. FPS: %lld\n", deltaT, isColor, fps);
+
+    /// Color : 9343ms , 361 FPS
+    /// Mono  : 5537ms , 214 FPS
+    /// Color Took 1.68x time to render the GOL benchmarking suite on 238x69 console.
+    /// Still higher frame rate than most of screens can show.
+}
+
+///=============================================================================
+///=============================================================================
+///=============================================================================
 
 void buildAnimations(struct Display d, int isColor){
     makeEmptyDisplay(d);
@@ -201,7 +242,7 @@ void printWorld(golWorld *world, struct Display d, int isColor) {
     buildDisplay(d, isColor);
 }
 
-void runGOL(struct Display d, int isColor) {
+void runGOL(struct Display d, int isColor, int timeMs, int generations) {
     golWorld gameoflife;
 
     if(createworld(&gameoflife, d.size.columns, d.size.lines)) {
@@ -209,10 +250,10 @@ void runGOL(struct Display d, int isColor) {
         int i = 0;
         do {
             printWorld(&gameoflife, d, isColor);
-            usleep(10*1000);
+            usleep(timeMs*1000);
             updateworld(&gameoflife);
             i++;
-        }while(i<1000);
+        }while(i<generations);
 
         destroyworld(&gameoflife);
     }
