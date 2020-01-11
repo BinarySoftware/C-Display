@@ -32,17 +32,20 @@ bounds
 possibility to adjust shapes based on screen size
 
 There are two modes of rendering:
-- Color - Displays all shapes with their beautiful colors, but because of how
-primitive this method has to be to actually work in terminal, it takes more CPU
-time, still, there is almost no use case for high-FPS graphics in terminal, 
-and this library is targeted mostly to create nice screens, and not advanced 
-animations. Still, for ex. Snake game should run fine.
-- Mono - This one is <b>really</b> fast, compared to Color mode. For example, the
-test bench took about 47.182 seconds to complete in Color mode, but only 18.652
-in Mono - it was 2.53x as fast, due to how rendering is constructed - there is 
-only one call to `printf()` and there are no calls to 'setColor()' or 
-'resetColor()' whatsoever, as it only displays every shape in terminal's default
- color.
+- Color - Displays all shapes with their beautiful colors, I've managed to optimise
+it, so it really changes color only if it is necessary, and it won't reset color
+on every printing, as each shape must define it's color, there is no need to get
+back to default color, so in my test bench, it's now 2.5x as fast, there is no
+noticeable difference between Color or Mono mode when it comes to FPS. It just 
+looks better, and allows you to create smooth animations, beautiful display models
+or even games, like snake, or space invaders.
+- Mono - This one is as fast as it can be. For example, the test bench took about 
+19.6 seconds to complete in Color mode, but only 18.6 in Mono - it was 1.06x as fast,
+because of how I managed to optimize color mode, there is no noticeable difference
+between those two rendering modes, so i leave Mono mode only for ones who would 
+really need it. There is only one call to `printf()` per all `buildDisplay()` 
+and there are no calls to 'setColor()' or 'resetColor()' whatsoever, as it only 
+displays every shape in terminal's default color.
 
 For all available functions, please check declarations in `display.h`.
 

@@ -203,21 +203,30 @@ void buildMonochromeDisplay(struct Display d){
 
 void buildColorDisplay(struct Display d){
     int line = 0;
+    enum Color previousColor = defaultColor;
     while(line < d.size.lines){
         int column = 0;
         while (column < d.size.columns){
             struct Point p =  d.array[line][column];
-            setColor(p.color);
             // Fix for non-readable ASCII characters
             if (p.c < 32){
                 p.c = ' ';
             }
-            printf("%c", p.c);
-            resetColor();
+
+            if (previousColor == p.color){
+                printf("%c", p.c);
+            } else {
+                if (p.c != ' ') {
+                    setColor(p.color);
+                    previousColor = p.color;
+                }
+                printf("%c", p.c);
+            }
             column++;
         }
         line++;
     }
+    resetColor();
     for (int i = 0; i < d.size.columns*d.size.lines-1; i++) {
         printf("\b");
     }

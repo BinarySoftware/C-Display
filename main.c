@@ -72,9 +72,9 @@ int main (void){
     long long timeEnd = currentTimeMs();
     long long deltaT = timeEnd - timeBeginning;
     printf("Took %lld ms. to render this test bench", deltaT);
-    /// Color : 47182ms
-    /// Mono  : 18652ms
-    /// Color Took 2.53x time to render the same scene, with noticeable FPS drop.
+    /// Color : 19868ms
+    /// Mono  : 18647ms
+    /// Color Took 1.065x time to render the same scene, without noticeable FPS drop.
     return 0;
 }
 
