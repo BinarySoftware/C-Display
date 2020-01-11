@@ -11,7 +11,8 @@ and at the end of displaying, free the allocated memory.
 
 Hardcoding No Mo.
 
-To see example of usage, open `main.c`
+To see example of usage, open `main.c`.
+To test, simply run with `./run.sh`
 
 ### Display.h
 This is the main library. It provides all necessary elements to run C-Display.
