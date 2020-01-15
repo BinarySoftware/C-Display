@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'macOS-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
 - script: |
@@ -28,5 +28,6 @@ steps:
 
 - script: |
     # runs the package
+    ls
     ./C-Display
   displayName: 'Run'
