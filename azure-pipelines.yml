@@ -13,14 +13,14 @@ steps:
 - script: |
     # compiles all necessary source files
     gcc -c -g color.c
-    gcc -c -g display.c
+    gcc -c -g display.c -lm
     gcc -c -g animate.c
     gcc -c -g main.c
   displayName: 'Compile'
 
 - script: |
     # combines them to package
-    gcc -o C-Display main.o display.o animate.o color.o
+    gcc -o C-Display main.o display.o animate.o color.o -lm 
 
     # removes all .o files
     rm main.o display.o animate.o color.o
