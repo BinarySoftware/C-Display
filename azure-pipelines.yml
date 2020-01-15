@@ -10,10 +10,23 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: |
+    # compiles all necessary source files
+    gcc -c -g color.c
+    gcc -c -g display.c
+    gcc -c -g animate.c
+    gcc -c -g main.c
+  displayName: 'Compile'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    # combines them to package
+    gcc -o C-Display main.o display.o animate.o color.o
+
+    # removes all .o files
+    rm main.o display.o animate.o color.o
+  displayName: 'Combine'
+
+- script: |
+    # runs the package
+    ./C-Display
+  displayName: 'Run'
