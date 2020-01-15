@@ -75,10 +75,4 @@ void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius,
 
 void createFrame(char c, struct Display d, enum Color color);
 
-
-///=============================================================================
-///==== DEPRECATED Methods =====================================================
-///=============================================================================
-__deprecated void createFrameDeprecated(char c, struct Display d, enum Color color);
-
 #endif

@@ -146,23 +146,6 @@ void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius,
 ///=============================================================================
 ///==== Creates a frame ========================================================
 ///=============================================================================
-void createFrameDeprecated(char c, struct Display d, enum Color color){
-    int line = 0;
-    while(line < d.size.lines){
-        int column = 0;
-        while (column < d.size.columns){
-            if (column == 0 || column == d.size.columns - 1 ||
-                line == 0 || line == d.size.lines - 1) {
-                pushCharToPoint(c, line, column, d,color);
-            } else {
-                pushCharToPoint(' ', line, column, d, color);
-            }
-            column++;
-        }
-        line++;
-    }
-}
-
 void createFrame(char c, struct Display d, enum Color color){
     createBox(c, d, 0, 0, d.size.columns-1, d.size.lines-1, color);
 }
