@@ -9,7 +9,7 @@
 ///=============================================================================
 ///==== Creates empty display with specified size ==============================
 ///=============================================================================
-void makeEmptyDisplay(struct Display d){
+void makeEmptyDisplay(Display d){
     int line = 0;
 
     while(line < d.size.lines){
@@ -25,7 +25,7 @@ void makeEmptyDisplay(struct Display d){
 ///=============================================================================
 ///==== Pushes char to specified point in display's array ======================
 ///=============================================================================
-void pushCharToPoint(char c, int ln, int col, struct Display d, enum Color color){
+void pushCharToPoint(char c, int ln, int col, Display d, Color color){
     if(ln < d.size.lines && col < d.size.columns && ln >= 0 && col >= 0){
         d.array[ln][col].c = c;
         d.array[ln][col].color = color;
@@ -35,13 +35,13 @@ void pushCharToPoint(char c, int ln, int col, struct Display d, enum Color color
 ///=============================================================================
 ///==== Creates lines and columns of specified length ==========================
 ///=============================================================================
-void createLine(char c, struct Display d, int ln, int beg, int end, enum Color color){
+void createLine(char c, Display d, int ln, int beg, int end, Color color){
     for(int i = beg; i < end; i++){
         pushCharToPoint(c, ln, i, d, color);
     }
 }
 
-void createColumn(char c, struct Display d, int col, int beg, int end, enum Color color){
+void createColumn(char c, Display d, int col, int beg, int end, Color color){
     for(int i = beg; i < end; i++){
         pushCharToPoint(c, i, col, d, color);
     }
@@ -50,7 +50,7 @@ void createColumn(char c, struct Display d, int col, int beg, int end, enum Colo
 ///=============================================================================
 ///==== Creates lines and columns from strings =================================
 ///=============================================================================
-void createLineText(char* c, struct Display d, int ln, int beg, enum Color color){
+void createLineText(char* c, Display d, int ln, int beg, Color color){
     for(int i = 0; i < d.size.columns-1; i++){
         if(c[i] == '\0'){
             break;
@@ -58,7 +58,7 @@ void createLineText(char* c, struct Display d, int ln, int beg, enum Color color
         pushCharToPoint(c[i], ln, i+beg, d, color);
     }
 }
-void createColumnText(char* c, struct Display d, int col, int beg, enum Color color){
+void createColumnText(char* c, Display d, int col, int beg, Color color){
     for(int i = 0; i < d.size.lines-1; i++){
         if(c[i] == '\0'){
             break;
@@ -70,7 +70,7 @@ void createColumnText(char* c, struct Display d, int col, int beg, enum Color co
 ///=============================================================================
 ///==== Calculates and creates diagonals from start and end points =============
 ///=============================================================================
-void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd, enum Color color){
+void createDiagonal(char c, Display d, int xBeg, int yBeg, int xEnd, int yEnd, Color color){
     float xB = (float) xBeg;
     float yB = (float) yBeg;
     float xE = (float) xEnd;
@@ -86,14 +86,11 @@ void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int 
 ///=============================================================================
 ///==== Creates 2D boxes =======================================================
 ///=============================================================================
-void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd, enum Color color){
-    if(xBeg == xEnd && yBeg == yEnd){
-        pushCharToPoint(c, yBeg, xBeg, d, color);
-    }else if(xBeg == xEnd){
-        createColumn(c, d, xBeg, yBeg, yEnd+1, color);
-    }else if(yBeg == yEnd){
-        createLine(c, d, yBeg, xBeg, xEnd, color);
-    } else {
+void createBox(char c, Display d, int xBeg, int yBeg, int xEnd, int yEnd, Color color){
+    if (xBeg == xEnd && yBeg == yEnd) { pushCharToPoint(c, yBeg, xBeg, d, color); }
+    else if (xBeg == xEnd) { createColumn(c, d, xBeg, yBeg, yEnd+1, color); }
+    else if (yBeg == yEnd) { createLine(c, d, yBeg, xBeg, xEnd, color); }
+    else {
         createColumn(c, d, xBeg, yBeg, yEnd, color);
         createColumn(c, d, xEnd, yBeg, yEnd, color);
         createLine(c, d, yBeg, xBeg, xEnd+1, color);
@@ -109,7 +106,7 @@ int reversePythagorean(int x, int r){
     return ((y)>=0?(int)((y)+0.5):(int)((y)-0.5));
 }
 
-void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color){
+void createCircle(char c, Display d, int xBeg, int yBeg, int radius, Color color){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
         pushCharToPoint(c, yBeg + y, xBeg + x, d, color);
@@ -119,7 +116,7 @@ void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius, enum
     }
 }
 
-void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color){
+void createWheel(char c, Display d, int xBeg, int yBeg, int radius, Color color){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
         createColumn(c, d, xBeg + x, yBeg - y, yBeg + y, color);
@@ -127,7 +124,7 @@ void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius, enum 
     }
 }
 
-void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color){
+void createSemiWheelDn(char c, Display d, int xBeg, int yBeg, int radius, Color color){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
         createColumn(c, d, xBeg + x, yBeg , yBeg + y, color);
@@ -135,7 +132,7 @@ void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius,
     }
 }
 
-void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color){
+void createSemiWheelUp(char c, Display d, int xBeg, int yBeg, int radius, Color color){
     for(int x = 0; x <= radius; x++){
         int y = reversePythagorean(x,radius);
         createColumn(c, d, xBeg + x, yBeg - y, yBeg, color);
@@ -146,7 +143,7 @@ void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius,
 ///=============================================================================
 ///==== Creates a frame ========================================================
 ///=============================================================================
-void createFrameDeprecated(char c, struct Display d, enum Color color){
+void createFrameDeprecated(char c, Display d, Color color){
     int line = 0;
     while(line < d.size.lines){
         int column = 0;
@@ -163,14 +160,14 @@ void createFrameDeprecated(char c, struct Display d, enum Color color){
     }
 }
 
-void createFrame(char c, struct Display d, enum Color color){
+void createFrame(char c, Display d, Color color){
     createBox(c, d, 0, 0, d.size.columns-1, d.size.lines-1, color);
 }
 
 ///=============================================================================
 ///==== Builds (prints out) display ============================================
 ///=============================================================================
-void buildDisplay(struct Display d, int isColorMode){
+void buildDisplay(Display d, int isColorMode){
     if (isColorMode) {
         buildColorDisplay(d);
     } else {
@@ -178,7 +175,7 @@ void buildDisplay(struct Display d, int isColorMode){
     }
 }
 
-void buildMonochromeDisplay(struct Display d){
+void buildMonochromeDisplay(Display d){
     int line = 0;
     char str[d.size.columns*d.size.lines+1];
     while(line < d.size.lines){
@@ -201,13 +198,13 @@ void buildMonochromeDisplay(struct Display d){
     }
 }
 
-void buildColorDisplay(struct Display d){
+void buildColorDisplay(Display d){
     int line = 0;
-    enum Color previousColor = defaultColor;
+    Color previousColor = defaultColor;
     while(line < d.size.lines){
         int column = 0;
         while (column < d.size.columns){
-            struct Point p =  d.array[line][column];
+            Point p =  d.array[line][column];
             // Fix for non-readable ASCII characters
             if (p.c < 32){
                 p.c = ' ';
@@ -235,24 +232,24 @@ void buildColorDisplay(struct Display d){
 ///=============================================================================
 ///==== Management of 2D Array & Display =======================================
 ///=============================================================================
-struct Display initializeDisplay(){
-    struct Size size = getTerminalSize();
-    struct Point** pointsArray = initializeArray(size.columns, size.lines);
-    struct Display display = {size, pointsArray};
+Display initializeDisplay(){
+    Size size           = getTerminalSize();
+    Point** pointsArray = initializeArray(size.columns, size.lines);
+    Display display     = {size, pointsArray};
     makeEmptyDisplay(display);
     return display;
 }
 
-struct Point ** initializeArray(int m, int n){
-    struct Point* values = calloc(m*n, sizeof(struct Point));
-    struct Point** rows = malloc(n*sizeof(struct Point*));
+Point ** initializeArray(int m, int n){
+    Point* values = calloc(m*n, sizeof(Point));
+    Point** rows  = malloc(n*sizeof(Point*));
     for (int i=0; i<n; ++i){
         rows[i] = values + i*m;
     }
     return rows;
 }
 
-void destroyDisplay(struct Display d){
+void destroyDisplay(Display d){
     free(*d.array);
     free(d.array);
 }
@@ -260,20 +257,20 @@ void destroyDisplay(struct Display d){
 ///=============================================================================
 ///==== Gets the current terminal size properties ==============================
 ///=============================================================================
-struct Size getTerminalSize(void){
+Size getTerminalSize(void){
 #ifdef TIOCGSIZE
     struct ttysize ts;
     ioctl(STDIN_FILENO, TIOCGSIZE, &ts);
     int cols = ts.ts_cols;
     int lines = ts.ts_lines;
-    struct Size r = {lines, cols};
+    Size r = {lines, cols};
     return r;
 #elif defined(TIOCGWINSZ)
     struct winsize ts;
       ioctl(STDIN_FILENO, TIOCGWINSZ, &ts);
       int columns = ts.ws_col;
       int lines = ts.ws_row;
-      struct Size r = { columns, lines};
+      Size r = { columns, lines};
       return r;
 #endif
 }

@@ -3,7 +3,7 @@
 
 #include "color.h"
 
-void setColor(enum Color c){
+void setColor(Color c){
     char escape[] = "\033";
     char * col;
     switch (c) {
@@ -56,6 +56,6 @@ void resetColor(){
     printf("%s%s",escape,col);
 }
 
-enum Color getRandomColorValue() {
-    return (enum Color)(rand() % 12);
+Color getRandomColorValue() {
+    return (Color)(rand() % 12);
 }

@@ -6,7 +6,7 @@
 ///==== Outside-In Animation, with specified time per frame ====================
 ///=============================================================================
 
-void outsideInAnimation(int time, struct Display d, int isColor, enum Color color) {
+void outsideInAnimation(int time, Display d, int isColor, Color color) {
     createFrame('#', d, color);
     buildDisplay(d, isColor);
     usleep(time*1000);
@@ -22,7 +22,7 @@ void outsideInAnimation(int time, struct Display d, int isColor, enum Color colo
 ///==== Inside-out Animation, with specified time per frame ====================
 ///=============================================================================
 
-void insideOutAnimation(int time, struct Display d, int isColor, enum Color color) {
+void insideOutAnimation(int time, Display d, int isColor, Color color) {
     createFrame('#', d, color);
     buildDisplay(d, isColor);
     usleep(time*1000);
@@ -40,7 +40,7 @@ void insideOutAnimation(int time, struct Display d, int isColor, enum Color colo
 ///==== Helper functions for getting bigger/smaller half from display size =====
 ///=============================================================================
 
-int getMaxHalf(struct Display d) {
+int getMaxHalf(Display d) {
     int halfC = d.size.columns / 2;
     int halfL = d.size.lines / 2;
 
@@ -53,7 +53,7 @@ int getMaxHalf(struct Display d) {
     return h;
 }
 
-int getMinHalf(struct Display d) {
+int getMinHalf(Display d) {
     int halfC = d.size.columns / 2;
     int halfL = d.size.lines / 2;
 

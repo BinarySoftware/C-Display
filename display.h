@@ -1,5 +1,4 @@
-#ifndef _DISPLAY_H
-#define _DISPLAY_H
+#pragma once
 
 #include "color.h"
 
@@ -8,77 +7,75 @@
 ///=============================================================================
 ///==== Structure for keeping size properties of Terminal ======================
 ///=============================================================================
-struct Size {
+typedef struct {
     int lines;
     int columns;
-};
+} Size;
 
-struct Size getTerminalSize(void);
+Size getTerminalSize(void);
 
 ///=============================================================================
 ///==== Structure for keeping point char with Color data =======================
 ///=============================================================================
-struct Point {
+typedef struct {
     char c;
-    enum Color color;
-};
+    Color color;
+} Point;
 
 ///=============================================================================
 ///==== Structure for keeping data of Display ==================================
 ///=============================================================================
-struct Display {
-    struct Size size;
-    struct Point** array;
-};
+typedef struct {
+    Size size;
+    Point ** array;
+} Display;
 
-struct Display initializeDisplay();
+Display initializeDisplay();
 
 ///=============================================================================
 ///==== Display array management and building ==================================
 ///=============================================================================
-struct Point ** initializeArray(int m, int n);
+Point ** initializeArray(int m, int n);
 
-void destroyDisplay(struct Display d);
+void destroyDisplay(Display d);
 
-void makeEmptyDisplay(struct Display d);
+void makeEmptyDisplay(Display d);
 
-void buildDisplay(struct Display d, int isColorMode);
+void buildDisplay(Display d, int isColorMode);
 
-void buildMonochromeDisplay(struct Display d);
+void buildMonochromeDisplay(Display d);
 
-void buildColorDisplay(struct Display d);
+void buildColorDisplay(Display d);
 
 ///=============================================================================
 ///==== Methods for creating shapes on display =================================
 ///=============================================================================
-void pushCharToPoint(char c, int ln, int col, struct Display d, enum Color color);
+void pushCharToPoint(char c, int ln, int col, Display d, Color color);
 
-void createLine(char c, struct Display d, int ln, int beg, int end, enum Color color);
+void createLine(char c, Display d, int ln, int beg, int end, Color color);
 
-void createColumn(char c, struct Display d, int col, int beg, int end, enum Color color);
+void createColumn(char c, Display d, int col, int beg, int end, Color color);
 
-void createDiagonal(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd, enum Color color);
+void createDiagonal(char c, Display d, int xBeg, int yBeg, int xEnd, int yEnd, Color color);
 
-void createLineText(char* c, struct Display d, int ln, int beg, enum Color color);
+void createLineText(char* c, Display d, int ln, int beg, Color color);
 
-void createColumnText(char* c, struct Display d, int col, int beg, enum Color color);
+void createColumnText(char* c, Display d, int col, int beg, Color color);
 
-void createBox(char c, struct Display d, int xBeg, int yBeg, int xEnd, int yEnd, enum Color color);
+void createBox(char c, Display d, int xBeg, int yBeg, int xEnd, int yEnd, Color color);
 
-void createCircle(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color);
+void createCircle(char c, Display d, int xBeg, int yBeg, int radius, Color color);
 
-void createWheel(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color);
+void createWheel(char c, Display d, int xBeg, int yBeg, int radius, Color color);
 
-void createSemiWheelDn(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color);
+void createSemiWheelDn(char c, Display d, int xBeg, int yBeg, int radius, Color color);
 
-void createSemiWheelUp(char c, struct Display d, int xBeg, int yBeg, int radius, enum Color color);
+void createSemiWheelUp(char c, Display d, int xBeg, int yBeg, int radius, Color color);
 
-void createFrame(char c, struct Display d, enum Color color);
+void createFrame(char c, Display d, Color color);
 
 
 ///=============================================================================
 ///==== DEPRECATED Methods =====================================================
 ///=============================================================================
-__deprecated void createFrameDeprecated(char c, struct Display d, enum Color color);
-
-#endif
+__deprecated void createFrameDeprecated(char c, Display d, Color color);

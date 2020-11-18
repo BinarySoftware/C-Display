@@ -64,4 +64,4 @@ transition effects.
 
 ### Color.h
 Provides functions for setting color in terminal, randomizing it, and getting 
-back to default. Every color possible for console is a part of `enum Color`.
+back to default. Every color possible for console is a part of `Color`.

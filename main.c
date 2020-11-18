@@ -12,21 +12,23 @@
 ///==== Functions used in this playground ======================================
 ///=============================================================================
 
-void createGUI(struct Display d, char c, int isColor);
+void createGUI(Display d, char c, int isColor);
+
+void createTerminalStories(Display d, int isColor);
 
 long fact(long i);
 
-void buildPlayground(struct Display d, int isColor);
+void buildPlayground(Display d, int isColor);
 
-void buildLunaLogo(struct Display d, int isColor);
+void buildLunaLogo(Display d, int isColor);
 
-void buildAnimations(struct Display d, int isColor);
+void buildAnimations(Display d, int isColor);
 
-void waitForUserInteraction(struct Display d, int isColor);
+void waitForUserInteraction(Display d, int isColor);
 
-void printWorld(golWorld *world, struct Display d, int isColor);
+void printWorld(golWorld *world, Display d, int isColor);
 
-void runGOL(struct Display d, int isColor, int timeMs, int generations);
+void runGOL(Display d, int isColor, int timeMs, int generations);
 
 void bench(int isColor);
 
@@ -63,8 +65,11 @@ void testRun(int isColor){
 
     /// First is display initialization - measurement of console, initialization
     /// of properly sized 2D char array to hold data for each point on screen
-    struct Display disp = initializeDisplay();
+    Display disp = initializeDisplay();
     /// Prints in color or in monochrome mode
+
+    // A twitter joke now
+    createTerminalStories(disp, isColor);
 
     // Example no.1 - drawing primitive shapes and texts
     buildPlayground(disp, isColor);
@@ -99,7 +104,7 @@ void bench(int isColor){
     long long timeBeginning = currentTimeMs();
     int generations = 2000;
 
-    struct Display disp = initializeDisplay();
+    Display disp = initializeDisplay();
     runGOL(disp, isColor, 0, generations);
 
     destroyDisplay(disp);
@@ -119,7 +124,7 @@ void bench(int isColor){
 ///=============================================================================
 ///=============================================================================
 
-void buildAnimations(struct Display d, int isColor){
+void buildAnimations(Display d, int isColor){
     makeEmptyDisplay(d);
     buildDisplay(d, isColor);
     outsideInAnimation(10, d, isColor, blue);
@@ -131,7 +136,8 @@ void buildAnimations(struct Display d, int isColor){
     waitForUserInteraction(d, isColor);
 }
 
-void buildPlayground(struct Display d, int isColor){
+void buildPlayground(Display d, int isColor){
+    makeEmptyDisplay(d);
     printf("Terminal is %d columns by %d lines.\n", d.size.columns, d.size.lines);
     createFrame('#', (d), getRandomColorValue());
     createColumn('*', (d), 10, 4, 18, getRandomColorValue());
@@ -152,9 +158,9 @@ void buildPlayground(struct Display d, int isColor){
     waitForUserInteraction(d, isColor);
 }
 
-void buildLunaLogo(struct Display d, int isColor){
+void buildLunaLogo(Display d, int isColor){
     char c = '#';
-    enum Color color = magenta;
+    Color color = magenta;
 
     makeEmptyDisplay(d);
 
@@ -173,9 +179,39 @@ void buildLunaLogo(struct Display d, int isColor){
     waitForUserInteraction(d, isColor);
 }
 
-void createGUI(struct Display d, char c, int isColor){
-    enum Color textColor = blue;
-    enum Color frameColor = green;
+void createTerminalStories(Display d, int isColor){
+    char c = '#';
+    Color outerRing = boldBlue;
+
+    makeEmptyDisplay(d);
+    char names [5][3] = {"AS","BD","LF","KK","MM"};
+    for(int i = 0; i <= 5; i++){
+        int r    = 4;
+        int midX = (2*i+1)*(r+3);
+        int midY = 1 + r;
+        createCircle(c,d,midX,midY,r, outerRing);
+        if (i < 5) {
+            createLineText(names[i], (d), midY, midX-1, defaultColor);
+        } else {
+            createLine(c,d,midY,midX-1,midX+2,defaultColor);
+            createColumn(c,d,midX,midY-1,midY+2,defaultColor);
+        }
+    }
+
+    createLineText("maciej", (d), 13, 0, cyan);
+    createLineText("@", (d), 13, 6, defaultColor);
+    createLineText("MacBook-Pro-SuperSonic", (d), 13, 7, magenta);
+    createLineText("=>", (d), 14, 0, yellow);
+    createLineText("ls", (d), 14, 3, green);
+    createLineText("-lah", (d), 14, 6, defaultColor);
+
+    buildDisplay(d, isColor);
+    waitForUserInteraction(d, isColor);
+}
+
+void createGUI(Display d, char c, int isColor){
+    Color textColor = blue;
+    Color frameColor = green;
     // Cleans up display from previous structures
     makeEmptyDisplay(d);
 
@@ -214,8 +250,8 @@ void createGUI(struct Display d, char c, int isColor){
     waitForUserInteraction(d, isColor);
 }
 
-void waitForUserInteraction(struct Display d, int isColor){
-    createLineText(" Press Any Key ... ",d,1,1, defaultColor);
+void waitForUserInteraction(Display d, int isColor){
+//    createLineText(" Press Any Key ... ",d,1,1, defaultColor);
     buildDisplay(d, isColor);;
     getchar();
 }
@@ -229,7 +265,7 @@ long fact(long i){
     }
 }
 
-void printWorld(golWorld *world, struct Display d, int isColor) {
+void printWorld(golWorld *world, Display d, int isColor) {
     int x, y;
 
     for (y = 0; y < world->height; y++) {
@@ -242,7 +278,7 @@ void printWorld(golWorld *world, struct Display d, int isColor) {
     buildDisplay(d, isColor);
 }
 
-void runGOL(struct Display d, int isColor, int timeMs, int generations) {
+void runGOL(Display d, int isColor, int timeMs, int generations) {
     golWorld gameoflife;
 
     if(createworld(&gameoflife, d.size.columns, d.size.lines)) {

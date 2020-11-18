@@ -1,5 +1,4 @@
-#ifndef _ANIMATE_H
-#define _ANIMATE_H
+#pragma once
 
 #include "display.h"
 
@@ -7,12 +6,10 @@
 ///==== Animation library for C-Display ========================================
 ///=============================================================================
 
-void outsideInAnimation(int time, struct Display d, int isColor, enum Color color);
+void outsideInAnimation(int time, Display d, int isColor, Color color);
 
-void insideOutAnimation(int time, struct Display d, int isColor, enum Color color);
+void insideOutAnimation(int time, Display d, int isColor, Color color);
 
-int getMaxHalf(struct Display d);
+int getMaxHalf(Display d);
 
-int getMinHalf(struct Display d);
-
-#endif
+int getMinHalf(Display d);

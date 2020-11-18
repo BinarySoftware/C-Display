@@ -1,10 +1,9 @@
-#ifndef _COLOR_H
-#define _COLOR_H
+#pragma once
 
 ///=============================================================================
 ///==== Enumeration of all colors possible to print out in Terminal [1] ========
 ///=============================================================================
-enum Color {
+typedef enum {
     red,
     boldRed,
     green,
@@ -18,18 +17,16 @@ enum Color {
     cyan,
     boldCyan,
     defaultColor
-};
+} Color;
 
 ///=============================================================================
 ///==== Functions for setting and resetting colors =============================
 ///=============================================================================
-void setColor(enum Color c);
+void setColor(Color c);
 
 void resetColor();
 
-enum Color getRandomColorValue(); /// [2]
-
-#endif
+Color getRandomColorValue(); /// [2]
 
 /** NOTE [1]
   * There is no difference on my machine between bold and normal colors
