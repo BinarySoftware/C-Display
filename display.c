@@ -114,6 +114,13 @@ void createCircle(char c, Display d, int xBeg, int yBeg, int radius, Color color
         pushCharToPoint(c, yBeg - y, xBeg + x, d, color);
         pushCharToPoint(c, yBeg - y, xBeg - x, d, color);
     }
+    for(int y = 0; y <= radius; y++){
+        int x = reversePythagorean(y,radius);
+        pushCharToPoint(c, yBeg + y, xBeg + x, d, color);
+        pushCharToPoint(c, yBeg + y, xBeg - x, d, color);
+        pushCharToPoint(c, yBeg - y, xBeg + x, d, color);
+        pushCharToPoint(c, yBeg - y, xBeg - x, d, color);
+    }
 }
 
 void createWheel(char c, Display d, int xBeg, int yBeg, int radius, Color color){
