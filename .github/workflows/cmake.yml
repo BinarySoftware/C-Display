@@ -37,8 +37,3 @@ jobs:
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build . --config $BUILD_TYPE
-    
-    - name: Git Release
-      # You may pin to the exact commit or the version.
-      # uses: anton-yurchenko/git-release@92f7a042cbbbe25bc1c32bb3a6f74cffeb40ee23
-      uses: anton-yurchenko/git-release@v3.4.2
