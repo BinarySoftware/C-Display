@@ -214,7 +214,6 @@ void createGUI(Display d, char c, int isColor){
     Color frameColor = green;
     // Cleans up display from previous structures
     makeEmptyDisplay(d);
-
     // Creates Empty frame
     createFrame(c, d, textColor);
 
