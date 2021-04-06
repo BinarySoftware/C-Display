@@ -16,6 +16,8 @@ void createGUI(Display d, char c, int isColor);
 
 void createTerminalStories(Display d, int isColor);
 
+void createPtipsLogo(Display d, int isColor);
+
 long fact(long i);
 
 void buildPlayground(Display d, int isColor);
@@ -51,12 +53,12 @@ int main (void){
 
     /// Test suite - shows example playground in both Color & Mono
     testRun(1);
-    testRun(0);
+//    testRun(0);
 
     /// Benchmarking suite - Game Of Life with no sleep time - just to get almost
     /// bare performance difference for Mono vs. Color rendering methods
-    bench(0);
-    bench(1);
+//    bench(0);
+//    bench(1);
     return 0;
 }
 
@@ -67,6 +69,9 @@ void testRun(int isColor){
     /// of properly sized 2D char array to hold data for each point on screen
     Display disp = initializeDisplay();
     /// Prints in color or in monochrome mode
+
+    // ProgrammingTips Animated logo.
+    createPtipsLogo(disp, isColor);
 
     // A twitter joke now
     createTerminalStories(disp, isColor);
@@ -208,6 +213,60 @@ void createTerminalStories(Display d, int isColor){
     buildDisplay(d, isColor);
     waitForUserInteraction(d, isColor);
 }
+
+void createPtipsLogo(Display d, int isColor){
+    char c = '#';
+    int t = 2*100000;
+    makeEmptyDisplay(d);
+
+    usleep(t*20);
+
+    for (int i=0; i<15; i++){
+        createColumn(c,d,22+i,26,40,red);
+    }
+    buildDisplay(d, isColor);
+    usleep(t);
+    for (int i=0; i<10; i++){
+        createDiagonal(c,d,20-i,20+i,30-i,30+i,yellow);
+    }
+    buildDisplay(d, isColor);
+    usleep(t);
+    for (int i=0; i<15; i++){
+        createColumn(c,d,10+i,15,30,boldGreen);
+    }
+    buildDisplay(d, isColor);
+    usleep(t);
+    for (int i=0; i<10; i++){
+        createDiagonal(c,d,20-i,5+i,30-i,15+i,red);
+    }
+    buildDisplay(d, isColor);
+    usleep(t);
+    for (int i=0; i<15; i++){
+        createColumn(c,d,22+i,5,19,boldYellow);
+    }
+    buildDisplay(d, isColor);
+    usleep(t);
+    for (int i=0; i<10; i++){
+        createDiagonal(c,d,37-i,5+i,47-i,15+i,green);
+    }
+    buildDisplay(d, isColor);
+    usleep(t);
+    for (int i=0; i<15; i++){
+        createColumn(c,d,34+i,15,30,boldCyan);
+    }
+    buildDisplay(d, isColor);
+    usleep(t);
+    for (int i=0; i<10; i++){
+        createDiagonal(c,d,37-i,20+i,47-i,30+i,boldBlue);
+    }
+    buildDisplay(d, isColor);
+    usleep(t);
+
+    waitForUserInteraction(d, isColor);
+    waitForUserInteraction(d, isColor);
+    waitForUserInteraction(d, isColor);
+}
+
 
 void createGUI(Display d, char c, int isColor){
     Color textColor = blue;
